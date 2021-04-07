@@ -1,0 +1,4 @@
+#ignoring python virtual enviroment
+/venv
+#ignoring IDE files
+.idea
