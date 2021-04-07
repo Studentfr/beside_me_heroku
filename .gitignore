@@ -2,3 +2,5 @@
 /venv
 #ignoring IDE files
 .idea
+#ignore .env
+.env
