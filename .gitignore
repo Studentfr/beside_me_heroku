@@ -1,6 +1,16 @@
-#ignoring python virtual enviroment
-/venv
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media
+
 #ignoring IDE files
 .idea
-#ignore .env
+
+# Environments
+/venv
 beside_me/.env
+
+**/migrations/*
