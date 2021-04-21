@@ -4,3 +4,5 @@
 .idea
 #ignore .env
 beside_me/.env
+
+/migrations
