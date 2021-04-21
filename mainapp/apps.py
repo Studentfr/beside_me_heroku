@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class MainappConfig(AppConfig):
+class MainAppConfig(AppConfig):
     name = 'mainapp'
+    verbose_name = 'Beside Me'
