@@ -3,4 +3,4 @@
 #ignoring IDE files
 .idea
 #ignore .env
-.env
+beside_me/.env
