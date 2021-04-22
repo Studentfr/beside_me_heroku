@@ -9,6 +9,9 @@ from mainapp import models
 from mainapp.serializers import UserSerializer
 
 
+# TODO Document Lines
+
+
 @api_view(['GET'])
 def index(request):
     return Response("hello")
@@ -51,4 +54,3 @@ def userDelete(request, pk):
     if user.id != 1:
         user.delete()
     return Response('User has been deleted successfully')
-
