@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mainapp.apps.MainAppConfig',
     'rest_framework',
+    'frontend.apps.FrontendConfig',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'beside_me.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'landing/front/build'],
+        'DIRS': [BASE_DIR / 'frontend/react-app/build'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,10 +125,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR / 'frontend/static'
 
 
 
 STATICFILES_DIRS = (
-    (BASE_DIR / 'landing/front/build/static'),
+    (BASE_DIR / 'frontend/react-app/build/static'),
 )
