@@ -5,8 +5,10 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from mainapp import models
-from mainapp.serializers import UserSerializer, MeetingSerializer, CommentSerializer
+from . import services
+
+
+# TODO Document Lines
 
 
 @api_view(['GET'])
@@ -16,100 +18,90 @@ def index(request):
 
 @api_view(['GET'])
 def userList(request):
-    users = models.User.objects.all()
-    serializer = UserSerializer(users, many=True)
-    return Response(serializer.data)
+    """
+    Get all users from database
+    """
+    return Response(services.getAllUsers())
 
 
 @api_view(['GET'])
 def userDetail(request, pk):
-    user = models.User.objects.get(id=pk)
-    my_meetings = models.Meeting.objects.filter(headman=user)
-    meetings = models.Meeting.objects.filter(users=user)
-    meetingS = MeetingSerializer(my_meetings, many=True)
-    meetingSe = MeetingSerializer(meetings, many=True)
-    serializer = UserSerializer(user, many=False)
-    return Response({"Users": serializer.data, "Owned meetings": meetingS.data, "Joined meetings": meetingSe.data})
+    """
+    Get user by ID
+    return User Data, Meetings he/she own, Meetings he/she participated in
+    """
+    return Response(services.getUserDetail(pk))
 
 
 @api_view(['POST'])
 def userCreate(request):
-    serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+    """
+    Create user and save it to Database
+    """
+    return Response(services.saveUserToDB(request.data))
 
 
 @api_view(['POST'])
 def userUpdate(request, pk):
-    user = models.User.objects.get(id=pk)
-    serializer = UserSerializer(instance=user, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+    """
+    Update user by certain ID
+    """
+    return Response(services.updateUser(pk, request.data))
 
 
 @api_view(['DELETE'])
 def userDelete(request, pk):
-    user = models.User.objects.get(id=pk)
-    if user.id != 1:
-        user.delete()
-    return Response('User has been deleted successfully')
-
-##################
+    """
+    Delete user by certain ID
+    """
+    return Response(services.userDelete(pk))
 
 
 @api_view(['GET'])
 def meetingList(request):
-    meetings = models.Meeting.objects.all()
-    serializer = MeetingSerializer(meetings, many=True)
-    return Response(serializer.data)
+    """
+    Get all meetings from database
+    """
+    return Response(services.getAllMeetings())
 
 
 @api_view(['GET'])
 def meetingDetail(request, pk):
-    meeting = models.Meeting.objects.get(id=pk)
-    serializer = MeetingSerializer(meeting, many=False)
-    return Response(serializer.data)
+    """
+    Get meeting by certain ID
+    """
+    return Response(services.getMeetingById(pk))
 
 
 @api_view(['GET'])
 def meetingDetailHistory(request, pk):
-    meeting = models.Meeting.objects.get(id=pk)
-    comments = models.Comment.objects.filter(meeting=meeting)
-    rating = models.MeetingRate.objects.filter(meeting=meeting)
-    sum = 0
-    for rate in rating:
-        sum += rate.score
-    try:
-        sum = sum/len(rating)
-    except:
-        sum = "Not rated"
-    commentSerializer = CommentSerializer(comments, many=True)
-    serializer = MeetingSerializer(meeting, many=False)
-    return Response({"Meetings": serializer.data,"Comments": commentSerializer.data, "Rating": sum})
+    """
+    Get Meeting History
+    Includes:
+    Meeting Details, Comments and Meeting Rating
+    """
+    return Response(services.getMeetingHistory(pk))
 
 
 @api_view(['POST'])
 def meetingCreate(request):
-    serializer = MeetingSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+    """
+    Create meeting and save it to Database
+    """
+    return Response(services.saveMeetingToDB(request.data))
 
 
 @api_view(['POST'])
 def meetingUpdate(request, pk):
-    meeting = models.Meeting.objects.get(id=pk)
-    serializer = MeetingSerializer(instance=meeting, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+    """
+    Update meeting by certain ID
+    """
+    return Response(services.updateMeeting(pk, request.data))
 
 
 @api_view(['DELETE'])
 def meetingDelete(request, pk):
-    meeting = models.Meeting.objects.get(id=pk)
-    if meeting.id != 1:
-        meeting.delete()
-    return Response('Meeting has been deleted successfully')
+    """
+    Delete meeting by certain ID
+    """
+    return Response(services.deleteMeeting(pk))
