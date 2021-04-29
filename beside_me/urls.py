@@ -16,10 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from frontend.views import index
+from django.urls import path
+from django.views.generic import TemplateView
 
+from frontend.views import current_user, UserList
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',index),
+    path('current_user/', current_user),
+    path('users/', UserList.as_view()),
+    path('', TemplateView.as_view(template_name="index.html")),
 ]
