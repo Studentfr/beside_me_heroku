@@ -8,8 +8,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+class UserMeetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'firstname']
+
 
 class MeetingSerializer(serializers.ModelSerializer):
+    headman = UserMeetSerializer()
     class Meta:
         model = Meeting
         fields = '__all__'
