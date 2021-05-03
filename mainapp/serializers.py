@@ -15,11 +15,15 @@ class UserMeetSerializer(serializers.ModelSerializer):
 
 
 class MeetingSerializer(serializers.ModelSerializer):
-    headman = UserMeetSerializer()
+    headman = UserMeetSerializer(read_only=True)
     class Meta:
         model = Meeting
         fields = '__all__'
 
+class MeetingCreationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Meeting
+        fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:

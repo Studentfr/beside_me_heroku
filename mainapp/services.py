@@ -1,5 +1,5 @@
 from mainapp import models
-from mainapp.serializers import UserSerializer, MeetingSerializer, CommentSerializer
+from mainapp.serializers import UserSerializer, MeetingSerializer, CommentSerializer, MeetingCreationSerializer
 
 
 # User Functions
@@ -84,7 +84,7 @@ def getMeetingHistory(id):
 
 
 def saveMeetingToDB(meeting_data):
-    serializer = MeetingSerializer(data=meeting_data)
+    serializer = MeetingCreationSerializer(data=meeting_data)
     if serializer.is_valid():
         serializer.save()
     return serializer.data
@@ -110,6 +110,8 @@ def deleteMeeting(id):
 def serializeMeeting(meetings, isList: bool):
     return MeetingSerializer(meetings, many=isList)
 
+def serializeMeetingCreation(meetings, isList: bool):
+    return MeetingCreationSerializer(meetings, many=isList)
 
 # Comment Function
 
