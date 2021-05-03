@@ -34,7 +34,7 @@ class Meeting(models.Model):
     headman = models.ForeignKey('User', on_delete=models.CASCADE, related_name='+', verbose_name='Headman')
     is_expired = models.BooleanField(verbose_name='Is Expired')
     tags = models.ManyToManyField('Tag')
-    users = models.ManyToManyField('User')
+    users = models.ManyToManyField('User', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Meeting'
