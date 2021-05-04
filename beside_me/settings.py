@@ -131,3 +131,10 @@ STATIC_ROOT = BASE_DIR / 'frontend/static'
 STATICFILES_DIRS = (
     (BASE_DIR / 'frontend/react-app/build/static'),
 )
+STATIC_ROOT = BASE_DIR / 'frontend/static'
+
+
+
+STATICFILES_DIRS = (
+    (BASE_DIR / 'frontend/react-app/build/static'),
+)
