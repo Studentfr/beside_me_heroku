@@ -65,7 +65,7 @@ def getMeetingById(id):
 
 
 def getMeetingsIfHeadMan(user):
-    meetings = models.Meeting.objects.filter(users=user)
+    meetings = models.Meeting.objects.filter(headman=user)
     return serializeMeeting(meetings, True)
 
 
@@ -75,11 +75,11 @@ def getMeetingsIfParticipant(user):
 
 
 def getMeetingHistory(id):
-    meeting_serializer_data = getMeetingById(id).data
+    meeting_serializer_data = getMeetingById(id)
     meeting = getMeetingById.meeting
-    comment_serializer_data = getCommentByMeeting(meeting).data
+    comment_serializer_data = getCommentByMeeting(meeting)
     meeting_rating = countRatingOfMeeting(meeting)
-    return {"Meetings": meeting_serializer_data.data, "Comments": comment_serializer_data.data,
+    return {"Meetings": meeting_serializer_data, "Comments": comment_serializer_data,
             "Rating": meeting_rating}
 
 
@@ -128,7 +128,7 @@ def serializeComment(comments, isList: bool):
 
 def getRatingByMeeting(meeting):
     ratings = models.MeetingRate.objects.filter(meeting=meeting)
-
+    return ratings
 
 def ratingCounter(rating):
     sum = 0
