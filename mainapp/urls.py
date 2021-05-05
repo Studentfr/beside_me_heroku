@@ -18,4 +18,6 @@ urlpatterns = [
     path('meeting-update/<int:pk>/', views.meetingUpdate, name="meeting-update"),
     path('meeting-delete/<int:pk>/', views.meetingDelete, name="meeting-delete"),
     path('meeting-create/', views.meetingCreate, name="meeting-create"),
+
+    path('comment-create/<int:pk>', views.commentCreate, name="meeting-create"),
 ]
