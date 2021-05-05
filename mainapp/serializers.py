@@ -26,6 +26,12 @@ class MeetingCreationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
+    user = UserMeetSerializer()
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'

@@ -1,5 +1,6 @@
 from mainapp import models
-from mainapp.serializers import UserSerializer, MeetingSerializer, CommentSerializer, MeetingCreationSerializer
+from mainapp.serializers import UserSerializer, MeetingSerializer, CommentSerializer, MeetingCreationSerializer, \
+    CommentCreateSerializer
 
 
 # User Functions
@@ -143,3 +144,12 @@ def ratingCounter(rating):
 
 def countRatingOfMeeting(meeting):
     return ratingCounter(getRatingByMeeting(meeting))
+
+
+def saveCommentToDB(data, pk):
+    data['meeting'] = pk #We dont need to send meetingId in json, it will added here automatically
+    #data['user'] = TODO: We need to get current user id from session, but now we send userId in json
+    serializer = CommentCreateSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+    return serializer.data

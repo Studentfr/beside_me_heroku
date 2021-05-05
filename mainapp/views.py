@@ -105,3 +105,11 @@ def meetingDelete(request, pk):
     Delete meeting by certain ID
     """
     return Response(services.deleteMeeting(pk))
+
+
+@api_view(['POST'])
+def commentCreate(request, pk):
+    """
+    Create comment to exact meeting by id and save it to Database
+    """
+    return Response(services.saveCommentToDB(request.data, pk))
