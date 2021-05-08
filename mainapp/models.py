@@ -1,23 +1,65 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
+
+class UserManager(BaseUserManager):
+    def create_user(self, firstname, lastname, email, photo, password=None):
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        email = self.normalize_email(email)
+        user = self.model(firstname=firstname, lastname=lastname, email=email, photo=photo)
+
+        user.set_password(password)
+        user.save()
+
+        return user
+
+    def create_superuser(self, email, password, firstname, lastname):
+        """
+        Creates and saves a superuser with the given email and password.
+        """
+        user = self.create_user(
+            firstname,
+            lastname,
+            email,
+            '',
+            password=password,
+        )
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
 
 # Create your models here.
-class User(models.Model):
+class User(AbstractBaseUser, PermissionsMixin):
     """"
     Model of users that contains both participants and headmen information
     """
     firstname = models.CharField(max_length=150, verbose_name="First Name")
     lastname = models.CharField(max_length=150, verbose_name="Last Name")
     photo = models.ImageField(upload_to='static/imgs', blank=True, null=True)
-    email = models.EmailField(verbose_name="Email")
+    email = models.EmailField(verbose_name="Email", unique=True)
     password = models.CharField(max_length=150)
     tags = models.ManyToManyField('Tag')
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['firstname', 'lastname']
 
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
     def __str__(self):
+        return self.email
+
+    def get_full_name(self):
+        return self.firstname
+
+    def get_short_name(self):
         return self.firstname
 
 
