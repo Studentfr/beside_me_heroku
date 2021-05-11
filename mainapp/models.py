@@ -85,6 +85,9 @@ class Meeting(models.Model):
     def __str__(self):
         return self.title
 
+    def get_meeting_tags(self):
+        return Tag.objects.filter(meeting=self)
+
 
 class Tag(models.Model):
     """"
