@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
-import "./EventMarker";
 import EventMarker from "./EventMarker";
+import FormCreate from "../forms/CreateForm/CreateForm";
+
+import "./EventMarker";
 import "./Map.css";
+import CreateForm from "../forms/CreateForm/CreateForm";
 const Map = () => {
   const [mapConfig, setMapConfig] = React.useState({
     center: [54.8732, 69.1505],
@@ -60,23 +63,42 @@ const Map = () => {
     },
   ];
 
+  const [newEventLongLat, setNewEventLongLat] = useState();
+
+  const onMapClickHandler = (map) => {
+    map.on("click", function (e) {
+      const { lat, lng } = e.latlng;
+      setNewEventLongLat({ lat: lat, lng: lng });
+    });
+  };
+
+  const creteFormHandler = () => {
+    setNewEventLongLat();
+  };
+
   const filteredEvents = events.filter((event) => {
     const start_date = new Date(event.start_at);
     start_date.setMinutes(start_date.getMinutes() - 15);
     if (new Date() <= start_date && event.users.length < event.participants) {
       event.participants = `${event.users.length}/${event.participants}`;
-      console.log(event);
       return true;
     }
     return false;
   });
 
   return (
-    <div>
+    <>
+      {newEventLongLat && (
+        <CreateForm
+          onEventHandler={creteFormHandler}
+          coordinates={newEventLongLat}
+        />
+      )}
       <MapContainer
         className="map"
         center={mapConfig.center}
         zoom={mapConfig.zoom}
+        whenCreated={onMapClickHandler}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -86,7 +108,7 @@ const Map = () => {
           return <EventMarker key={event.id} event={event} />;
         })}
       </MapContainer>
-    </div>
+    </>
   );
 };
 
