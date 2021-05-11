@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'beside_me.urls'
@@ -76,6 +77,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'beside_me.wsgi.application'
+
+
 
 
 # Database
