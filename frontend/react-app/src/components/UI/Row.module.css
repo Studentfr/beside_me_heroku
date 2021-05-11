@@ -1,0 +1,9 @@
+.row {
+  display: flex;
+  flex-direction: column;
+}
+
+.row p,
+h3 {
+  margin: 0;
+}

@@ -3,9 +3,9 @@ import "./App.css";
 import Map from "./components/map/Map";
 const App = () => {
   return (
-    <div>
-      <Map></Map>;
-    </div>
+    <>
+      <Map></Map>
+    </>
   );
 };
 
