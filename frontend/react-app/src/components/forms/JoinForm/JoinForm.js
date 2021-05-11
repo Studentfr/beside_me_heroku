@@ -19,7 +19,11 @@ const JoinForm = (props) => {
           tags={props.eventDetail.tags}
         />
         <JoinFormBody eventDetail={props.eventDetail}></JoinFormBody>
-        <Button type="submit">Join Event</Button>
+        <Row>
+          <Button className={styles["btn-full-width"]} type="submit">
+            Join Event
+          </Button>
+        </Row>
       </form>
     </Row>
   );

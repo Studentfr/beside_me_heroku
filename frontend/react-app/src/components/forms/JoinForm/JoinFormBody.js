@@ -21,7 +21,9 @@ const JoinFormBody = (props) => {
       <p>
         <a href="#">{props.eventDetail.headman.firstname}</a>
       </p>
-      <Button onClick={showUsersModal}>Show users</Button>
+      <Row>
+        <Button onClick={showUsersModal}>Show Users</Button>
+      </Row>
     </Row>
   );
 };
