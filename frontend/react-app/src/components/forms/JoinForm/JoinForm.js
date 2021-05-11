@@ -3,7 +3,7 @@ import Row from "../../UI/Row";
 import JoinFormHeader from "./JoinFormHeader";
 import JoinFormBody from "./JoinFormBody";
 import Button from "../../UI/Button";
-import styles from "./JoinFrom.module.css";
+import styles from "../Form.module.css";
 
 const JoinForm = (props) => {
   const joinEvent = (event) => {

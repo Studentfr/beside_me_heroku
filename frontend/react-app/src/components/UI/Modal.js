@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Button from "./Button";
 import styles from "./Modal.module.css";
 
+//TODO Make separate component
 const Backdrop = (props) => {
   return <div className={styles.backdrop} onClick={props.onConfirm} />;
 };
