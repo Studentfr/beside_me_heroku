@@ -1,10 +1,15 @@
-from django.urls import path
+from django.urls import path, include
 
 from mainapp import views
+from rest_framework import routers
 
+from mainapp.views import UserViewSet
+
+router = routers.DefaultRouter()
+router.register('users', UserViewSet)
 
 urlpatterns = [
-    path('', views.index),
+    path('', include(router.urls)),
 
     path('user-list/', views.userList, name="user-list"),
     path('user-detail/<int:pk>/', views.userDetail, name="user-detail"),
@@ -20,4 +25,6 @@ urlpatterns = [
     path('meeting-create/', views.meetingCreate, name="meeting-create"),
 
     path('comment-create/<int:pk>', views.commentCreate, name="meeting-create"),
+
+    path('tag-list/', views.tagList, name="tag-list"),
 ]

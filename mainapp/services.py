@@ -1,6 +1,6 @@
 from mainapp import models
 from mainapp.serializers import UserSerializer, MeetingSerializer, CommentSerializer, MeetingCreationSerializer, \
-    CommentCreateSerializer
+    CommentCreateSerializer, TagSerializer
 
 
 # User Functions
@@ -153,3 +153,12 @@ def saveCommentToDB(data, pk):
     if serializer.is_valid():
         serializer.save()
     return serializer.data
+
+
+def serializeTag(tags, isList: bool):
+    return TagSerializer(tags, many=isList)
+
+
+def getAllTags():
+    tags = models.Tag.objects.all()
+    return serializeTag(tags, True).data
