@@ -25,7 +25,14 @@ class UserMeetSerializer(serializers.ModelSerializer):
         fields = ['id', 'firstname']
 
 
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
+
+
 class MeetingSerializer(serializers.ModelSerializer):
+    tags = TagSerializer(source='get_meeting_tags', many=True)
     headman = UserMeetSerializer(read_only=True)
     class Meta:
         model = Meeting
@@ -48,7 +55,3 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = '__all__'
