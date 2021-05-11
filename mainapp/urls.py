@@ -25,4 +25,6 @@ urlpatterns = [
     path('meeting-create/', views.meetingCreate, name="meeting-create"),
 
     path('comment-create/<int:pk>', views.commentCreate, name="meeting-create"),
+
+    path('tag-list/', views.tagList, name="tag-list"),
 ]

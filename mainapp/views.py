@@ -119,3 +119,11 @@ def commentCreate(request, pk):
     Create comment to exact meeting by id and save it to Database
     """
     return Response(services.saveCommentToDB(request.data, pk))
+
+
+@api_view(['GET'])
+def tagList(request):
+    """
+    Get all tags from database
+    """
+    return Response(services.getAllTags())
