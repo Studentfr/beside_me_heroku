@@ -19,7 +19,7 @@ class Register extends Component
   // }
 
     state = {
-    credentials: {firstname:'', lastname:'', username: '', password: '', photo:''}
+    credentials: {firstname:'', lastname:'', email: '', password: '', photo: null, groups: [], user_permissions: [], tags: [1]}
   }
   onImageChange = event => {
     if (event.target.files && event.target.files[0]) {
@@ -38,7 +38,7 @@ class Register extends Component
 
 
   register = event => {
-    fetch('http://127.0.0.1:8000/api/users/', {
+    fetch('/api/users/', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(this.state.credentials)
@@ -56,11 +56,17 @@ class Register extends Component
     cred[event.target.name] = event.target.value;
     this.setState({credentials: cred});
   }
+  inputChangedList = event => {
+      this.setState({
+          [event.target.name]: event.target.value
+      })
+  }
 
     render()
     {
         return (
             <div>
+
         <h1>Register user </h1>
                 <label>
           Firstname:
@@ -77,9 +83,9 @@ class Register extends Component
         </label>
         <br/>
      <label>
-          Username:
-          <input type="text" name="username"
-           value={this.state.credentials.username}
+          Email:
+          <input type="text" name="email"
+           value={this.state.credentials.email}
            onChange={this.inputChanged}/>
         </label>
         <br/>
@@ -96,11 +102,20 @@ class Register extends Component
           <div>
             <img src={this.state.credentials.photo} />
             <h1>Select Image</h1>
-            <input type="file" name="photo"  onChange={ e => {this.onImageChange(); this.inputChanged(e) }} />
+            <input type="file" name="photo"  value={this.state.credentials.photo} onChange={this.onImageChange} />
           </div>
         </div>
       </div>
+                <br/>
+                <label>
+                    Select tag:
+                    <select name="tags" value={this.state.credentials.tags} onChange={this.inputChangedList}>
 
+                        <option name="tags"  >1</option>
+                         <option name="tags"  >2</option>
+                    </select>
+                </label>
+                <br/>
         <button onClick={this.register}>Register</button>
 
       </div>
