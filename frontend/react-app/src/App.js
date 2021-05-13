@@ -2,7 +2,10 @@ import React, {useState} from "react";
 import "./App.css";
 import Map from "./components/map/Map";
 import Login from "./components/user/login";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Register from "./components/user/register";
+import Navbar from "./components/user/Navbar";
+import Dashboard from "./components/user/Dashboard";
 
 
 
@@ -20,11 +23,22 @@ const App = () => {
     }
 
   return (
-    <div className="App">
-      {/*<Map></Map>;*/}
-         <Login userLogin={userLogin}/>
-         <Register />
+    <div className='App'>
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route path='/login' component={Login} exact />
+          <Route path='/register' component={Register} exact />
+          {/*<Route path='/logout' component={Logout} exact />*/}
+          <Route path='/dashboard' component={Dashboard} exact />
+        </Switch>
+      </Router>
     </div>
+    // <div className="App">
+    //   {/*<Map></Map>;*/}
+    //      <Login userLogin={userLogin}/>
+    //      <Register />
+    // </div>
 
 
   );
