@@ -18,9 +18,13 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 
+from mainapp.views import UserViewSet
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('mainapp.urls')),
     path('auth/', obtain_auth_token),
+    # path('auth/', UserViewSet.as_view()),
+    # path('auth/login', include('rest_auth.urls')),
     path('', TemplateView.as_view(template_name="index.html")),
 ]

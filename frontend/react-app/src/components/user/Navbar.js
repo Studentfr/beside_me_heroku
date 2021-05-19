@@ -28,10 +28,10 @@ const Navbar = () => {
           <Fragment>
             {' '}
             <li>
-              <Link to='/login'>Login</Link>
+              <Link to='/auth/'>Login</Link>
             </li>
             <li>
-              <Link to='/register'>Register</Link>
+              <Link to='/api/users/'>Register</Link>
             </li>
           </Fragment>
         )}

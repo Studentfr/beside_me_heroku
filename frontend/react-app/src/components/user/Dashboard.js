@@ -1,14 +1,14 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
 const Dashboard = () => {
-  const [userEmail, setUserEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem('token') === null) {
       window.location.replace('/auth/');
     } else {
-      fetch('http://127.0.0.1:8000/api/user-list/', {
+      fetch('/api/user-list/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ const Dashboard = () => {
       })
         .then(res => res.json())
         .then(data => {
-          setUserEmail(data.email);
+          setUsername(data.username);
           setLoading(false);
         });
     }
@@ -28,7 +28,7 @@ const Dashboard = () => {
       {loading === false && (
         <Fragment>
           <h1>Dashboard</h1>
-          <h2>Hello {userEmail}!</h2>
+          <h2>Hello {username}!</h2>
         </Fragment>
       )}
     </div>

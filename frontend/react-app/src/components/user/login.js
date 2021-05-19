@@ -1,63 +1,78 @@
-import React, {Component} from "react";
+import React, { useState, useEffect } from 'react';
 
-import {render} from "@testing-library/react";
-import {DomUtil as Cookies} from "leaflet/dist/leaflet-src.esm";
+const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-class Login extends Component
-{
-    state = {
-    credentials: {username: '', password: ''}
-  }
-  login = event => {
+  useEffect(() => {
+    if (localStorage.getItem('token') !== null) {
+      window.location.replace('http://localhost:3000/dashboard');
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  const onSubmit = e => {
+    e.preventDefault();
+
+    const user = {
+      username: username,
+      password: password
+    };
+
     fetch('/auth/', {
       method: 'POST',
       headers: {
-          'X-CSRFToken': Cookies.get('csrftoken'),
-          'Content-Type': 'application/json'},
-      body: JSON.stringify(this.state.credentials)
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
     })
-    .then( data => data.json())
-    .then(
-      data => {
-        this.props.userLogin(data.token);
-      }
-    )
-    .catch( error => console.error(error))
-  }
+      .then(res => res.json())
+      .then(data => {
+        if (data.key) {
+          localStorage.clear();
+          localStorage.setItem('token', data.key);
+          window.location.replace('http://localhost:3000/dashboard');
+        } else {
+          setUsername('');
+          setPassword('');
+          localStorage.clear();
+          setErrors(true);
+        }
+      });
+  };
 
-
-  inputChanged = event => {
-    const cred = this.state.credentials;
-    cred[event.target.name] = event.target.value;
-    this.setState({credentials: cred});
-  }
-
-    render()
-    {
-        return (
-            <div>
-        <h1>Login user </h1>
-     <label>
-          Username:
-          <input type="text" name="username"
-           value={this.state.credentials.username}
-           onChange={this.inputChanged}/>
-        </label>
-        <br/>
-        <label>
-          Password:
-          <input type="password" name="password"
-           value={this.state.credentials.password}
-           onChange={this.inputChanged} />
-        </label>
-        <br/>
-        <button onClick={this.login}>Login</button>
-
-
-      </div>
-
-        );
-    }
-}
+  return (
+    <div>
+      {loading === false && <h1>Login</h1>}
+      {errors === true && <h2>Cannot log in with provided credentials</h2>}
+      {loading === false && (
+        <form onSubmit={onSubmit}>
+          <label htmlFor='username'>Email address:</label> <br />
+          <input
+            name='username'
+            type='username'
+            value={username}
+            required
+            onChange={e => setUsername(e.target.value)}
+          />{' '}
+          <br />
+          <label htmlFor='password'>Password:</label> <br />
+          <input
+            name='password'
+            type='password'
+            value={password}
+            required
+            onChange={e => setPassword(e.target.value)}
+          />{' '}
+          <br />
+          <input type='submit' value='Login' />
+        </form>
+      )}
+    </div>
+  );
+};
 
 export default Login;

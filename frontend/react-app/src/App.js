@@ -15,20 +15,20 @@ import Dashboard from "./components/user/Dashboard";
 const App = () => {
 
 
-    const [token, setToken] = useState('');
-
-    const userLogin = (tok) => {
-        setToken(tok);
-        console.log(tok)
-    }
+    // const [token, setToken] = useState('');
+    //
+    // const userLogin = (tok) => {
+    //     setToken(tok);
+    //     console.log(tok)
+    // }
 
   return (
     <div className='App'>
       <Router>
         <Navbar />
         <Switch>
-          <Route path='/login' component={Login} exact />
-          <Route path='/register' component={Register} exact />
+          <Route path='/auth/' component={Login} exact />
+          <Route path='/api/users/' component={Register} exact />
           {/*<Route path='/logout' component={Logout} exact />*/}
           <Route path='/dashboard' component={Dashboard} exact />
         </Switch>
