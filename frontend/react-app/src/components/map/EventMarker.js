@@ -1,5 +1,6 @@
 import React from "react";
 import { Marker, Popup } from "react-leaflet";
+import JoinForm from "../forms/JoinForm/JoinForm";
 
 const EventMarker = (props) => {
   return (
@@ -8,7 +9,7 @@ const EventMarker = (props) => {
       key={props.event.id}
     >
       <Popup>
-        <b>{props.event.title}</b>
+        <JoinForm eventDetail={props.event} />
       </Popup>
     </Marker>
   );

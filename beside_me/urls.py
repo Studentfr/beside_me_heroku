@@ -17,13 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
+from mainapp import views
 
 from mainapp.views import UserViewSet
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('mainapp.urls')),
-    path('auth/', obtain_auth_token),
+    path('auth/', views.CustomAuthToken.as_view()),
     path('', TemplateView.as_view(template_name="index.html")),
     path('dashboard', TemplateView.as_view(template_name="index.html")),
 ]

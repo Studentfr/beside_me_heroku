@@ -2,15 +2,19 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
+from rest_framework import generics, filters
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
 from . import services
+from mainapp import models
 
 
 # TODO Document Lines
 from .models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, MeetingSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -119,3 +123,36 @@ def commentCreate(request, pk):
     Create comment to exact meeting by id and save it to Database
     """
     return Response(services.saveCommentToDB(request.data, pk))
+
+
+@api_view(['GET'])
+def tagList(request):
+    """
+    Get all tags from database
+    """
+    return Response(services.getAllTags())
+
+
+@api_view()
+def joinMeeting(request):
+    meetingId = request.query_params.get('meeting_id', None)
+    userId = request.query_params.get('user_id', None)
+    meeting = models.Meeting.objects.get(id=meetingId)
+    print(meeting.get_meeting_users())
+    meeting.add_users_to_meeting(userId)
+    return Response("You have joined successfully")
+
+
+class CustomAuthToken(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'user_id': user.pk
+        })
+

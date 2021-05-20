@@ -1,0 +1,10 @@
+.header {
+  background: #4555e6;
+  padding: 1rem;
+  margin-bottom: -5px;
+}
+
+.header h2 {
+  margin: 0.5rem;
+  color: white;
+}
