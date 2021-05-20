@@ -13,55 +13,55 @@ const Map = () => {
     scrollWheelZoom: true,
   });
 
-  // const [events, setEvents] = React.useState([]);
+  const [events, setEvents] = React.useState([]);
 
-  // useEffect(() => {
-  //   fetch("api/meeting-list")
-  //     .then((response) => response.json())
-  //     .then(
-  //       (events) => {
-  //         setEvents(events);
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       }
-  //     );
-  // }, []);
+  useEffect(() => {
+    fetch("api/meeting-list")
+      .then((response) => response.json())
+      .then(
+        (events) => {
+          setEvents(events);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }, []);
 
-  const events = [
-    {
-      id: 2,
-      headman: {
-        id: 1,
-        firstname: "Aslan",
-      },
-      title: "Gachi Party",
-      participants: 5,
-      created_at: "2021-04-29T16:22:05.903812Z",
-      start_at: "2021-04-29T16:22:33Z",
-      longitude: 54.8732,
-      latitude: 69.1505,
-      is_expired: false,
-      tags: [1, 2],
-      users: [],
-    },
-    {
-      id: 3,
-      headman: {
-        id: 1,
-        firstname: "Aslan",
-      },
-      title: "Footbal",
-      participants: 10,
-      created_at: "2021-04-30T04:46:52.008408Z",
-      start_at: "2021-05-12T18:00:00Z",
-      longitude: 54.8968,
-      latitude: 69.13245,
-      is_expired: false,
-      tags: [2],
-      users: [4],
-    },
-  ];
+  // const events = [
+  //   {
+  //     id: 2,
+  //     headman: {
+  //       id: 1,
+  //       firstname: "Aslan",
+  //     },
+  //     title: "Gachi Party",
+  //     participants: 5,
+  //     created_at: "2021-04-29T16:22:05.903812Z",
+  //     start_at: "2021-04-29T16:22:33Z",
+  //     longitude: 54.8732,
+  //     latitude: 69.1505,
+  //     is_expired: false,
+  //     tags: [1, 2],
+  //     users: [],
+  //   },
+  //   {
+  //     id: 3,
+  //     headman: {
+  //       id: 1,
+  //       firstname: "Aslan",
+  //     },
+  //     title: "Footbal",
+  //     participants: 10,
+  //     created_at: "2021-04-30T04:46:52.008408Z",
+  //     start_at: "2021-05-14T18:00:00Z",
+  //     longitude: 54.8968,
+  //     latitude: 69.13245,
+  //     is_expired: false,
+  //     tags: [2],
+  //     users: [4],
+  //   },
+  // ];
 
   const [newEventLongLat, setNewEventLongLat] = useState();
 
@@ -88,6 +88,7 @@ const Map = () => {
 
   return (
     <>
+      {console.log(filteredEvents)}
       {newEventLongLat && (
         <CreateForm
           onEventHandler={creteFormHandler}
