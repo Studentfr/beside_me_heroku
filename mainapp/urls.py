@@ -17,6 +17,7 @@ urlpatterns = [
     path('user-delete/<int:pk>/', views.userDelete, name="user-delete"),
     path('user-create/', views.userCreate, name="user-create"),
 
+
     path('meeting-list/', views.meetingList, name="meeting-list"),
     path('meeting-detail/<int:pk>/', views.meetingDetail, name="meeting-detail"),
     path('meeting-detailH/<int:pk>/', views.meetingDetailHistory, name="meeting-detailH"),

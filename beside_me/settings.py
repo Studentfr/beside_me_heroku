@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'mainapp.apps.MainAppConfig',
     'rest_framework',
     'rest_framework.authtoken',
+
     'corsheaders'
 ]
 
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'beside_me.urls'
@@ -76,6 +78,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'beside_me.wsgi.application'
+
+
 
 
 # Database
@@ -127,6 +131,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'frontend/static'
+
+
+
+STATICFILES_DIRS = (
+    (BASE_DIR / 'frontend/react-app/build/static'),
+)
 STATIC_ROOT = BASE_DIR / 'frontend/static'
 
 
