@@ -8,8 +8,8 @@ const JoinFormHeader = (props) => {
       <div className={styles["flex-row"]}>
         {props.tags.map((tag) => {
           return (
-            <div key={tag} className={styles.tag}>
-              #{tag}
+            <div key={tag.id} className={styles.tag}>
+              #{tag.title}
             </div>
           );
         })}
