@@ -8,7 +8,7 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
-      window.location.replace('/dashboard');
+      // window.location.replace('/dashboard');
     } else {
       setLoading(false);
     }
@@ -31,11 +31,14 @@ const Login = () => {
     })
       .then(res => res.json())
       .then(data => {
-
+        console.log(data)
         if (data.token) {
+
           localStorage.clear();
           localStorage.setItem('token', data.token);
+          localStorage.setItem('id', data.user_id);
           window.location.replace('/dashboard');
+
         } else {
           setUsername('');
           setPassword('');
