@@ -5,21 +5,10 @@ import {DomUtil as Cookies} from "leaflet/dist/leaflet-src.esm";
 
 class Register extends Component
 {
-  //   constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //       firstname:'',
-  //       lastname:'',
-  //       username: '',
-  //       password: '',
-  //       photo: null,
-  //   };
-  //
-  //   this.onImageChange = this.onImageChange.bind(this);
-  // }
+
 
     state = {
-    credentials: {firstname:'', lastname:'', email: '', password: '', photo: null, groups: [], user_permissions: [], tags: [1]}
+    credentials: {firstname:'', lastname:'', email: '', password: '', photo: null, groups: [], user_permissions: [], tags: []}
   }
   onImageChange = event => {
     if (event.target.files && event.target.files[0]) {
@@ -43,11 +32,18 @@ class Register extends Component
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(this.state.credentials)
     })
-    .then( data => data.json())
-    .then(
-      data => {
-        console.log(data.token);
-      }
+    // .then( data => data.json())
+    // .then(
+    //   data => {
+    //     console.log(data.token);
+        .then(res => res.json())
+        .then(data => {
+            if (data.key) {
+                localStorage.clear();
+                localStorage.setItem('token', data.key);
+                window.location.replace('/dashboard');
+            }
+        }
     )
     .catch( error => console.error(error))
   }

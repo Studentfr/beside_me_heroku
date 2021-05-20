@@ -24,7 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('mainapp.urls')),
     path('auth/', obtain_auth_token),
-    # path('auth/', UserViewSet.as_view()),
-    # path('auth/login', include('rest_auth.urls')),
     path('', TemplateView.as_view(template_name="index.html")),
+    path('dashboard', TemplateView.as_view(template_name="index.html")),
 ]

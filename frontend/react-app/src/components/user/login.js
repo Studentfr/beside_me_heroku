@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import "../../index.css"
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -8,7 +8,7 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
-      window.location.replace('http://localhost:3000/dashboard');
+      window.location.replace('/dashboard');
     } else {
       setLoading(false);
     }
@@ -31,10 +31,11 @@ const Login = () => {
     })
       .then(res => res.json())
       .then(data => {
-        if (data.key) {
+
+        if (data.token) {
           localStorage.clear();
-          localStorage.setItem('token', data.key);
-          window.location.replace('http://localhost:3000/dashboard');
+          localStorage.setItem('token', data.token);
+          window.location.replace('/dashboard');
         } else {
           setUsername('');
           setPassword('');
@@ -50,15 +51,19 @@ const Login = () => {
       {errors === true && <h2>Cannot log in with provided credentials</h2>}
       {loading === false && (
         <form onSubmit={onSubmit}>
-          <label htmlFor='username'>Email address:</label> <br />
+          <div className="form-group">
+          <label htmlFor='username' >Email</label> <br />
           <input
             name='username'
             type='username'
             value={username}
             required
             onChange={e => setUsername(e.target.value)}
+            className="form-control"  placeholder="Enter email"
           />{' '}
+          </div>
           <br />
+          <div className="form-group">
           <label htmlFor='password'>Password:</label> <br />
           <input
             name='password'
@@ -66,9 +71,21 @@ const Login = () => {
             value={password}
             required
             onChange={e => setPassword(e.target.value)}
+            className="form-control"  placeholder="Enter password"
           />{' '}
+          </div>
           <br />
-          <input type='submit' value='Login' />
+          <div className="form-group">
+                    <div className="custom-control custom-checkbox">
+                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                    </div>
+                </div>
+
+          <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
+                <p className="forgot-password text-right">
+                    Forgot <a href="#">password?</a>
+                </p>
         </form>
       )}
     </div>

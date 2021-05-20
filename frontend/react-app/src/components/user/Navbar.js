@@ -10,10 +10,21 @@ const Navbar = () => {
     }
   }, []);
 
-  return (
-    <nav>
+  const handleLogout = e => {
+    e.preventDefault();
 
-      <ul>
+     localStorage.clear();
+      setIsAuth(false);
+      window.location.replace('/');
+  };
+
+  return (
+       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
+        <div className="container">
+          <Link className="navbar-brand" to={"/auth/"}>Beside Me</Link>
+          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul className="navbar-nav ml-auto">
+
         {isAuth === true ? (
           <Fragment>
             {' '}
@@ -21,7 +32,7 @@ const Navbar = () => {
               <Link to='/dashboard'>Dashboard</Link>
             </li>
             <li>
-              <Link to='/logout'>Logout</Link>
+              <Link to='/' onClick={handleLogout}>Logout</Link>
             </li>
           </Fragment>
         ) : (
@@ -36,7 +47,37 @@ const Navbar = () => {
           </Fragment>
         )}
       </ul>
-    </nav>
+
+
+          </div>
+        </div>
+      </nav>
+    // <nav>
+    //
+    //   <ul>
+    //     {isAuth === true ? (
+    //       <Fragment>
+    //         {' '}
+    //         <li>
+    //           <Link to='/dashboard'>Dashboard</Link>
+    //         </li>
+    //         <li>
+    //           <Link to='/' onClick={handleLogout}>Logout</Link>
+    //         </li>
+    //       </Fragment>
+    //     ) : (
+    //       <Fragment>
+    //         {' '}
+    //         <li>
+    //           <Link to='/auth/'>Login</Link>
+    //         </li>
+    //         <li>
+    //           <Link to='/api/users/'>Register</Link>
+    //         </li>
+    //       </Fragment>
+    //     )}
+    //   </ul>
+    // </nav>
   );
 };
 
