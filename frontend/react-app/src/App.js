@@ -35,6 +35,7 @@ const App = () => {
           <Route path='/api/users/' component={Register} exact />
           <Route path='/logout' component={Logout} exact />
           <Route path='/dashboard' component={Dashboard} exact />
+          <Route path = '/event_map' component={Map} exact />
           </Switch>
         </div>
       </div>

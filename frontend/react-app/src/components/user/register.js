@@ -2,6 +2,7 @@ import React, {Component} from "react";
 
 import {render} from "@testing-library/react";
 import {DomUtil as Cookies} from "leaflet/dist/leaflet-src.esm";
+import AutoComplete from "../UI/AutoComplete";
 
 class Register extends Component
 {
@@ -52,11 +53,9 @@ class Register extends Component
     cred[event.target.name] = event.target.value;
     this.setState({credentials: cred});
   }
-  inputChangedList = event => {
-      this.setState({
-          [event.target.name]: event.target.value
-      })
-  }
+  //   tagChangeHandler = (newTagList) => {
+  //   props.onTagsChange(newTagList);
+  // };
 
     render()
     {
@@ -104,13 +103,16 @@ class Register extends Component
       </div>
                 <br/>
                 <label>
-                    Select tag:
-                    <select name="tags" value={this.state.credentials.tags} onChange={this.inputChangedList}>
 
-                        <option name="tags"  >1</option>
-                         <option name="tags"  >2</option>
-                    </select>
+                    Select tag:
+
                 </label>
+                <AutoComplete
+                 items={[{id:1, title:"ggbet"},{id:2, title:"Daxak"}]}
+
+                    placeholder="Write a Tag"
+                 limit={3}
+                />
                 <br/>
         <button onClick={this.register}>Register</button>
 
