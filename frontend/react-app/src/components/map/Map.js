@@ -88,7 +88,6 @@ const Map = () => {
 
   return (
     <>
-      {console.log(filteredEvents)}
       {newEventLongLat && (
         <CreateForm
           onEventHandler={creteFormHandler}
