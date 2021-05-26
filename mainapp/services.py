@@ -111,8 +111,10 @@ def deleteMeeting(id):
 def serializeMeeting(meetings, isList: bool):
     return MeetingSerializer(meetings, many=isList)
 
+
 def serializeMeetingCreation(meetings, isList: bool):
     return MeetingCreationSerializer(meetings, many=isList)
+
 
 # Comment Function
 
@@ -131,6 +133,7 @@ def getRatingByMeeting(meeting):
     ratings = models.MeetingRate.objects.filter(meeting=meeting)
     return ratings
 
+
 def ratingCounter(rating):
     sum = 0
     for rate in rating:
@@ -147,8 +150,8 @@ def countRatingOfMeeting(meeting):
 
 
 def saveCommentToDB(data, pk):
-    data['meeting'] = pk #We dont need to send meetingId in json, it will added here automatically
-    #data['user'] = TODO: We need to get current user id from session, but now we send userId in json
+    data['meeting'] = pk  # We dont need to send meetingId in json, it will added here automatically
+    # data['user'] = TODO: We need to get current user id from session, but now we send userId in json
     serializer = CommentCreateSerializer(data=data)
     if serializer.is_valid():
         serializer.save()

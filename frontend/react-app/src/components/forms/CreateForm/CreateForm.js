@@ -20,6 +20,7 @@ const ModalCreate = (props) => {
   const [formData, setFormData] = useState({
     title: "",
     participants: "",
+    tags: [],
     start_time: "",
     isParticipant: false,
   });
@@ -29,6 +30,7 @@ const ModalCreate = (props) => {
       title: "",
       participants: "",
       start_time: "",
+      tags: [],
       isParticipant: false,
     });
     setClear(clear + 1);
@@ -37,55 +39,33 @@ const ModalCreate = (props) => {
   const [formError, setFormError] = useState(null);
   const [clear, setClear] = useState(0);
 
-  // useEffect(() => {
-  //   fetch("api/tag-list")
-  //     .then((response) => response.json())
-  //     .then(
-  //       (tags) => {
-  //         setTags(tags);
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       }
-  //     );
-  // }, []);
   const proccedEventCreation = () => {
-    /*
-    {
-    "title": "Chess",
-    "participants": 2,
-    "start_at": "2021-05-08T14:22:08Z",
-    "longitude": 40.0,
-    "latitude": 50.0,
-    "is_expired": false,
-    "headman": 5,
-    "tags": [1],
-    "users": []
-}
-    */
-
-    const csrf_token = getCookie("csrftoken");
+    console.log(formData);
+    console.log(props.latlong);
+    // const csrf_token = getCookie("csrftoken");
 
     const sendingData = {
-      tags: [1, 2],
+      tags: formData.tags,
       headman: 1,
       title: formData.title,
-      participants: 5,
+      participants: formData.participants,
       start_at: formData.start_time.substring(0, 19) + "Z",
-      longitude: 54.8968,
-      latitude: 69.13245,
+      longitude: props.latlong.lng,
+      latitude: props.latlong.lat,
       is_expired: false,
-      users: [2],
+      users: [formData.isParticipant ? 2 : null],
     };
-    console.log(JSON.stringify(sendingData));
-    return fetch("http://127.0.0.1:8000/api/meeting-create/", {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": csrf_token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(sendingData),
-    }).then((data) => data.json());
+
+    console.log(sendingData);
+    // console.log(JSON.stringify(sendingData));
+    // return fetch("http://127.0.0.1:8000/api/meeting-create/", {
+    //   method: "POST",
+    //   headers: {
+    //     "X-CSRFToken": csrf_token,
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(sendingData),
+    // }).then((data) => data.json());
   };
 
   const createEvent = (event) => {
@@ -103,7 +83,6 @@ const ModalCreate = (props) => {
       return;
     }
     setFormError(null);
-    console.log(formData);
     proccedEventCreation();
     resetData();
   };
@@ -121,7 +100,6 @@ const ModalCreate = (props) => {
   };
 
   const startTimeHandler = (enteredTime) => {
-    console.log(new Date(enteredTime).toLocaleString());
     setFormData((prevState) => {
       return { ...prevState, start_time: new Date(enteredTime).toISOString() };
     });
@@ -133,8 +111,18 @@ const ModalCreate = (props) => {
     });
   };
 
+  const tagsHandler = (newTaglist) => {
+    setFormData((prevState) => {
+      return { ...prevState, tags: newTaglist.map((item) => item.id) };
+    });
+  };
+
   return (
-    <form className={createForm_styles["create-form"]} onSubmit={createEvent}>
+    <form
+      autoComplete="off"
+      className={createForm_styles["create-form"]}
+      onSubmit={createEvent}
+    >
       <Row>
         <CreateFormHeader />
         <CreateFormBody
@@ -142,6 +130,7 @@ const ModalCreate = (props) => {
           onParticipantChange={participantHandler}
           onTimeChange={startTimeHandler}
           onCheckboxChange={isParticipantHandler}
+          onTagsChange={tagsHandler}
           error={formError}
           clear={clear}
         />
@@ -159,6 +148,7 @@ const CreateForm = (props) => {
           <Backdrop onConfirm={props.onEventHandler} />,
           document.getElementById("backdrop-root")
         )}
+
         {ReactDOM.createPortal(
           <ModalCreate latlong={props.coordinates} />,
           document.getElementById("overlay-root")

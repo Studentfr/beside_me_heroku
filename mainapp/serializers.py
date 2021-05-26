@@ -34,24 +34,27 @@ class TagSerializer(serializers.ModelSerializer):
 class MeetingSerializer(serializers.ModelSerializer):
     tags = TagSerializer(source='get_meeting_tags', many=True)
     headman = UserMeetSerializer(read_only=True)
+
     class Meta:
         model = Meeting
         fields = '__all__'
+
 
 class MeetingCreationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meeting
         fields = '__all__'
 
+
 class CommentSerializer(serializers.ModelSerializer):
     user = UserMeetSerializer()
+
     class Meta:
         model = Comment
         fields = '__all__'
+
 
 class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
-
-
