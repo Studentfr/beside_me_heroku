@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from "react";
+import AutoComplete from "../../UI/AutoComplete";
 
 import styles from "./css/CreateFormBody.module.css";
 
 const CreateFormBody = (props) => {
-  //   const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState([]);
 
-  //   useEffect(() => {
-  //     fetch("api/tag-list")
-  //       .then((response) => response.json())
-  //       .then(
-  //         (tags) => {
-  //           setTags(tags);
-  //         },
-  //         (error) => {
-  //           console.log(error);
-  //         }
-  //       );
-  //   }, []);
-
-  const tags = [
-    { id: 1, title: "hello" },
-    { id: 2, title: "Gachi" },
-  ];
+  useEffect(() => {
+    fetch("api/tag-list")
+      .then((response) => response.json())
+      .then(
+        (allTags) => {
+          setTags(allTags);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }, []);
 
   const [title, setTitle] = useState("");
   const [participants, setParticipants] = useState("");
@@ -87,6 +83,10 @@ const CreateFormBody = (props) => {
     return toLocalISO(date);
   };
 
+  const tagChangeHandler = (newTagList) => {
+    props.onTagsChange(newTagList);
+  };
+
   return (
     <div className={styles.content}>
       <p>{props.error}</p>
@@ -97,11 +97,12 @@ const CreateFormBody = (props) => {
         id="title"
         onChange={titleChangeHandler}
       />
-      <div>
-        {tags.map((tag) => {
-          return <p key={tag.id}>#{tag.title}</p>;
-        })}
-      </div>
+      <AutoComplete
+        items={tags}
+        onTagChoice={tagChangeHandler}
+        placeholder="Write a Tag"
+        limit={3}
+      />
       <label htmlFor="number">Number of participants</label>
       <input
         type="number"
