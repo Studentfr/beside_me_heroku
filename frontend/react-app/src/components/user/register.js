@@ -14,10 +14,17 @@ const Register = (props) => {
     const [errors, setErrors] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const tagChangeHandler = (newTagList) => {
-    props.onTagsChange(newTagList);
+     const tagChangeHandler = (newTagList) => {
+        props.onTagsChange(newTagList);
   };
-      useEffect(() => {
+
+     const tagsHandler = (newTaglist) => {
+    setTags(() =>
+       newTaglist.map((item) => item.id)
+    );
+  };
+
+    useEffect(() => {
     fetch("http://127.0.0.1:8000/api/tag-list")
       .then((response) => response.json())
       .then(
@@ -128,6 +135,7 @@ const Register = (props) => {
                     <AutoComplete
                          items={tags}
                          onTagChoice={tagChangeHandler}
+                         onTagsChange = {tagsHandler}
                          placeholder="Write a Tag"
                          limit={3}
                     />
