@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../../index.css"
+import {DomUtil as Cookies} from "leaflet/dist/leaflet-src.esm";
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +26,8 @@ const Login = () => {
     fetch('/auth/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Cookies.get('csrftoken')
       },
       body: JSON.stringify(user)
     })

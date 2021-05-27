@@ -1,125 +1,143 @@
-import React, {Component} from "react";
-
-import {render} from "@testing-library/react";
-import {DomUtil as Cookies} from "leaflet/dist/leaflet-src.esm";
+import React, {useEffect, useState} from "react";
 import AutoComplete from "../UI/AutoComplete";
 
-class Register extends Component
-{
+const Register = (props) => {
 
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [photo, setPhoto] = useState(null);
+    const [groups, setGroups] = useState([]);
+    const [user_permissions, setUser_permissions] = useState([]);
+    const [tags, setTags] = useState([]);
+    const [errors, setErrors] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    state = {
-    credentials: {firstname:'', lastname:'', email: '', password: '', photo: null, groups: [], user_permissions: [], tags: []}
-  }
-  onImageChange = event => {
-    if (event.target.files && event.target.files[0]) {
-      let img = event.target.files[0];
-      this.setState({
-        photo: URL.createObjectURL(img)
-      });
-      console.log(img)
-        console.log(URL.createObjectURL(img))
-    }
+    const tagChangeHandler = (newTagList) => {
+    props.onTagsChange(newTagList);
   };
-
-
-
-
-
-
-  register = event => {
-    fetch('/api/users/', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(this.state.credentials)
-    })
-    // .then( data => data.json())
-    // .then(
-    //   data => {
-    //     console.log(data.token);
-        .then(res => res.json())
-        .then(data => {
-            if (data.key) {
-                localStorage.clear();
-                localStorage.setItem('token', data.key);
-                window.location.replace('/dashboard');
-            }
+      useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/tag-list")
+      .then((response) => response.json())
+      .then(
+        (allTags) => {
+          setTags(allTags);
+        },
+        (error) => {
+          console.log(error);
         }
-    )
-    .catch( error => console.error(error))
-  }
-  inputChanged = event => {
-    const cred = this.state.credentials;
-    cred[event.target.name] = event.target.value;
-    this.setState({credentials: cred});
-  }
-  //   tagChangeHandler = (newTagList) => {
-  //   props.onTagsChange(newTagList);
-  // };
+      );
+  }, []);
 
-    render()
-    {
+    useEffect(() => {
+        if (localStorage.getItem('token') !== null) {
+            // window.location.replace('/dashboard');
+        } else {
+            setLoading(false);
+        }
+    }, []);
+
+
+    const onSubmit = e => {
+        e.preventDefault();
+
+        const user = {
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            password: password,
+            photo: photo,
+            groups: groups,
+            user_permissions: user_permissions,
+            tags: tags
+        };
+
+            fetch('/api/users/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(user)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.token) {
+                        localStorage.clear();
+                        localStorage.setItem('token', data.token);
+                        window.location.replace('/dashboard');
+                    } else {
+                        setFirstname('');
+                        setLastname('');
+                        setEmail('');
+                        setPassword('');
+                        setPhoto(null);
+                        setGroups([]);
+                        setUser_permissions([]);
+                        setTags([]);
+                        localStorage.clear();
+                        setErrors(true);
+                    }
+                });
+        };
+
+
         return (
             <div>
+                {loading === false && <h1>Register</h1>}
+                {errors === true && <h2>Cannot register with provided credentials</h2>}
+                <form onSubmit={onSubmit}>
+                    <label htmlFor='firstname'>Firstname</label> <br/>
+                    <input
+                        name='firstname'
+                        type='firstname'
+                        value={firstname}
+                        onChange={e => setFirstname(e.target.value)}
+                        required
+                    />{' '}
+                    <br/>
+                    <label htmlFor='lastname'>Lastname</label> <br/>
+                    <input
+                        name='lastname'
+                        type='lastname'
+                        value={lastname}
+                        onChange={e => setLastname(e.target.value)}
+                        required
+                    />{' '}
+                    <br/>
+                    <label htmlFor='email'>Email address:</label> <br/>
+                    <input
+                        name='email'
+                        type='email'
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        required
+                    />{' '}
+                    <br/>
+                    <label htmlFor='password'>Password:</label> <br/>
+                    <input
+                        name='password'
+                        type='password'
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        required
+                    />{' '}
+                    <br/>
 
-        <h1>Register user </h1>
-                <label>
-          Firstname:
-          <input type="text" name="firstname"
-           value={this.state.credentials.firstname}
-           onChange={this.inputChanged}/>
-        </label>
-        <br/>
-         <label>
-          Lastname:
-          <input type="text" name="lastname"
-           value={this.state.credentials.lastname}
-           onChange={this.inputChanged}/>
-        </label>
-        <br/>
-     <label>
-          Email:
-          <input type="text" name="email"
-           value={this.state.credentials.email}
-           onChange={this.inputChanged}/>
-        </label>
-        <br/>
-        <label>
-          Password:
-          <input type="password" name="password"
-           value={this.state.credentials.password}
-           onChange={this.inputChanged} />
-        </label>
-        <br/>
-        #Image
-       <div>
-        <div>
-          <div>
-            <img src={this.state.credentials.photo} />
-            <h1>Select Image</h1>
-            <input type="file" name="photo"  value={this.state.credentials.photo} onChange={this.onImageChange} />
-          </div>
-        </div>
-      </div>
-                <br/>
-                <label>
+                    <label>
+                        Select tag:
+                    </label>
+                    <AutoComplete
+                         items={tags}
+                         onTagChoice={tagChangeHandler}
+                         placeholder="Write a Tag"
+                         limit={3}
+                    />
+                    <br/>
+                    <input type='submit' value='Register'/>
+                </form>
+            </div>
 
-                    Select tag:
-
-                </label>
-                <AutoComplete
-                 items={[{id:1, title:"ggbet"},{id:2, title:"Daxak"}]}
-
-                    placeholder="Write a Tag"
-                 limit={3}
-                />
-                <br/>
-        <button onClick={this.register}>Register</button>
-
-      </div>
 
         );
-    }
-}
+    };
 
 export default Register;
