@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Row from "../../UI/Row";
 import ReactDOM from "react-dom";
-import { useEffect } from "react";
 import CreateFormHeader from "./CreateFormHeader";
 import getCookie from "../getCookie";
 
@@ -40,23 +39,28 @@ const ModalCreate = (props) => {
   const [clear, setClear] = useState(0);
 
   const proccedEventCreation = () => {
-    console.log(formData);
-    console.log(props.latlong);
     // const csrf_token = getCookie("csrftoken");
+
+    //Need to delete before testing with token
+    localStorage.setItem("id", 2);
 
     const sendingData = {
       tags: formData.tags,
-      headman: 1,
+      headman: parseInt(localStorage.getItem("id")),
       title: formData.title,
       participants: formData.participants,
       start_at: formData.start_time.substring(0, 19) + "Z",
       longitude: props.latlong.lng,
       latitude: props.latlong.lat,
       is_expired: false,
-      users: [formData.isParticipant ? 2 : null],
+      users: [
+        formData.isParticipant ? parseInt(localStorage.getItem("id")) : null,
+      ],
     };
 
     console.log(sendingData);
+
+    //Uncomment to work with the database
     // console.log(JSON.stringify(sendingData));
     // return fetch("http://127.0.0.1:8000/api/meeting-create/", {
     //   method: "POST",
@@ -74,7 +78,10 @@ const ModalCreate = (props) => {
       setFormError("Title length must be > 5");
       return;
     }
-    if (parseInt(formData.participants, 10) < 2) {
+    if (
+      parseInt(formData.participants, 10) < 2 ||
+      formData.participants === ""
+    ) {
       setFormError("Participants number must be > 2");
       return;
     }
@@ -82,9 +89,13 @@ const ModalCreate = (props) => {
       console.log("HELLO");
       return;
     }
+    if (formData.tags.length < 1) {
+      setFormError("You must select at least 1 tag");
+      return;
+    }
     setFormError(null);
     proccedEventCreation();
-    resetData();
+    props.onConfirm();
   };
 
   const titleHandler = (enteredTitle) => {
@@ -150,7 +161,10 @@ const CreateForm = (props) => {
         )}
 
         {ReactDOM.createPortal(
-          <ModalCreate latlong={props.coordinates} />,
+          <ModalCreate
+            latlong={props.coordinates}
+            onConfirm={props.onEventHandler}
+          />,
           document.getElementById("overlay-root")
         )}
       </>
