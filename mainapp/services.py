@@ -1,4 +1,7 @@
+from rest_framework.authtoken.models import Token
+
 from mainapp import models
+from mainapp.models import User
 from mainapp.serializers import UserSerializer, MeetingSerializer, CommentSerializer, MeetingCreationSerializer, \
     CommentCreateSerializer, TagSerializer
 
@@ -35,7 +38,9 @@ def saveUserToDB(user_data):
     serializer = UserSerializer(data=user_data)
     if serializer.is_valid():
         serializer.save()
-    return serializer.data
+    user = User.objects.get(email=user_data["email"])
+    token = Token.objects.get(user=user.id)
+    return {"data": serializer.data, "token": token.key}
 
 
 def updateUser(id, user_data):
