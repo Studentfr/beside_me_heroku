@@ -32,6 +32,12 @@ const ModalCreate = (props) => {
     //Need to delete before testing with token
     localStorage.setItem("id", 2);
 
+    let participantList = [];
+
+    if (formData.isParticipant) {
+      participantList.push(parseInt(localStorage.getItem("id")));
+    }
+
     const sendingData = {
       tags: formData.tags,
       headman: parseInt(localStorage.getItem("id")),
@@ -41,9 +47,7 @@ const ModalCreate = (props) => {
       longitude: props.latlong.lng,
       latitude: props.latlong.lat,
       is_expired: false,
-      users: [
-        formData.isParticipant ? parseInt(localStorage.getItem("id")) : null,
-      ],
+      users: participantList,
     };
 
     console.log(sendingData);

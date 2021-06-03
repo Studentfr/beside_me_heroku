@@ -12,10 +12,12 @@ const ModalOverlay = (props) => {
   return (
     <div className={styles.modal}>
       <header className={styles.header}>
-        <h2>11</h2>
+        <h2>{props.title}</h2>
       </header>
       <div className={styles.content}>
-        <p>22</p>
+        {props.toFetch.map((item) => {
+          return <p>{item}</p>;
+        })}
       </div>
       <footer className={styles.actions}>
         <Button onClick={props.onConfirm}>Ok</Button>
@@ -32,7 +34,11 @@ const Modal = (props) => {
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay onConfirm={props.onEventHandler} />,
+        <ModalOverlay
+          title={props.title}
+          toFetch={props.data}
+          onConfirm={props.onEventHandler}
+        />,
         document.getElementById("overlay-root")
       )}
     </>

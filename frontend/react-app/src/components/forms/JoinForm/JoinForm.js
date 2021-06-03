@@ -34,7 +34,9 @@ const JoinForm = (props) => {
           title={props.eventDetail.title}
           tags={props.eventDetail.tags}
         />
+
         <JoinFormBody eventDetail={props.eventDetail}></JoinFormBody>
+
         <Row>
           {localStorage.getItem("token") !== null &&
             !props.eventDetail.users.includes(

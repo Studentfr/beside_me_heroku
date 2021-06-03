@@ -29,7 +29,7 @@ const Map = () => {
           console.log(error);
         }
       );
-  }, [flag]);
+  }, [newEventLongLat]);
 
   const onMapClickHandler = (map) => {
     map.on("click", function (e) {
@@ -40,7 +40,6 @@ const Map = () => {
 
   const creteFormHandler = () => {
     setNewEventLongLat();
-    setFlag(true);
   };
 
   const filteredEvents = events.filter((event) => {
@@ -55,7 +54,7 @@ const Map = () => {
 
   return (
     <>
-      {newEventLongLat && (
+      {localStorage.getItem("token") !== null && newEventLongLat && (
         <CreateForm
           onEventHandler={creteFormHandler}
           coordinates={newEventLongLat}
@@ -65,7 +64,9 @@ const Map = () => {
         className="map"
         center={mapConfig.center}
         zoom={mapConfig.zoom}
-        whenCreated={onMapClickHandler}
+        whenCreated={
+          localStorage.getItem("token") !== null ? onMapClickHandler : () => {}
+        }
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
