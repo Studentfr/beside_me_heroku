@@ -56,7 +56,7 @@ const Register = (props) => {
             tags: selectedTags
         };
 
-            fetch('/api/users/', {
+            fetch('/api/user-create/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -66,6 +66,7 @@ const Register = (props) => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data)
                     if (data.token) {
                         localStorage.clear();
                         localStorage.setItem('token', data.token);
