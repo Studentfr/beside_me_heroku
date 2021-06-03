@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import AutoComplete from "../UI/AutoComplete";
+import {DomUtil as Cookies} from "leaflet/dist/leaflet-src.esm";
 
 const Register = (props) => {
 
@@ -13,15 +14,10 @@ const Register = (props) => {
     const [tags, setTags] = useState([]);
     const [errors, setErrors] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [selectedTags, setSelectedTags] = useState([]);
 
      const tagChangeHandler = (newTagList) => {
-        props.onTagsChange(newTagList);
-  };
-
-     const tagsHandler = (newTaglist) => {
-    setTags(() =>
-       newTaglist.map((item) => item.id)
-    );
+         setSelectedTags(newTagList.map((item) => item.id));
   };
 
     useEffect(() => {
@@ -57,12 +53,15 @@ const Register = (props) => {
             photo: photo,
             groups: groups,
             user_permissions: user_permissions,
-            tags: tags
+            tags: selectedTags
         };
 
             fetch('/api/users/', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': Cookies.get('csrftoken')
+                },
                 body: JSON.stringify(user)
             })
                 .then(res => res.json())
@@ -128,14 +127,12 @@ const Register = (props) => {
                         required
                     />{' '}
                     <br/>
-
                     <label>
                         Select tag:
                     </label>
                     <AutoComplete
                          items={tags}
                          onTagChoice={tagChangeHandler}
-                         onTagsChange = {tagsHandler}
                          placeholder="Write a Tag"
                          limit={3}
                     />
