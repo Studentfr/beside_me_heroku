@@ -10,17 +10,21 @@ import styles from "../Form.module.css";
 const JoinForm = (props) => {
   const joinEvent = (event) => {
     event.preventDefault();
-    // const csrf_token = getCookie("csrftoken");
-    console.log(props.eventDetail.id);
-    // return fetch("http://127.0.0.1:8000/api/join-meeting/", {
-    //   method: "POST",
-    //   headers: {
-    //     "X-CSRFToken": csrf_token,
-    //     "Content-Type": "application/json",
-    //     meeting_id: props.eventDetail.id,
-    //     user_id: parseInt(localStorage.getItem("id")),
-    //   },
-    // }).then((data) => data.json());
+    const csrf_token = getCookie("csrftoken");
+    return fetch(
+      `/api/join-meeting/?meeting_id=${props.eventDetail.id}&user_id=${parseInt(
+        localStorage.getItem("id")
+      )}`,
+      {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrf_token,
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((data) => {
+      console.log(data.json());
+    });
   };
 
   return (
@@ -30,7 +34,9 @@ const JoinForm = (props) => {
           title={props.eventDetail.title}
           tags={props.eventDetail.tags}
         />
+
         <JoinFormBody eventDetail={props.eventDetail}></JoinFormBody>
+
         <Row>
           {localStorage.getItem("token") !== null &&
             !props.eventDetail.users.includes(
