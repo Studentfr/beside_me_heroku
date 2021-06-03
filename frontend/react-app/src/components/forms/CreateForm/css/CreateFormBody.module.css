@@ -2,3 +2,29 @@
   background: white;
   padding: 1rem;
 }
+
+.content input[type="text"] {
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.content input[type="number"] {
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.content input[type="datetime-local"] {
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.content input[type="checkbox"] {
+  height: 20px;
+  width: 20px;
+}

@@ -28,7 +28,7 @@ const Map = () => {
       );
   }, []);
 
-  // const events = [
+  // const Cevents = [
   //   {
   //     id: 2,
   //     headman: {
@@ -37,8 +37,8 @@ const Map = () => {
   //     },
   //     title: "Gachi Party",
   //     participants: 5,
-  //     created_at: "2021-04-29T16:22:05.903812Z",
-  //     start_at: "2021-04-29T16:22:33Z",
+  //     created_at: "2021-05-27T16:22:05.903812Z",
+  //     start_at: "2021-05-28T16:22:33Z",
   //     longitude: 54.8732,
   //     latitude: 69.1505,
   //     is_expired: false,
@@ -53,8 +53,8 @@ const Map = () => {
   //     },
   //     title: "Footbal",
   //     participants: 10,
-  //     created_at: "2021-04-30T04:46:52.008408Z",
-  //     start_at: "2021-05-14T18:00:00Z",
+  //     created_at: "2021-05-26T04:46:52.008408Z",
+  //     start_at: "2021-05-27T18:00:00Z",
   //     longitude: 54.8968,
   //     latitude: 69.13245,
   //     is_expired: false,
@@ -88,7 +88,6 @@ const Map = () => {
 
   return (
     <>
-      {console.log(filteredEvents)}
       {newEventLongLat && (
         <CreateForm
           onEventHandler={creteFormHandler}
