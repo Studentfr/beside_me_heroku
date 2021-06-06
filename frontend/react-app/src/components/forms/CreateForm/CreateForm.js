@@ -24,25 +24,19 @@ const ModalCreate = (props) => {
     isParticipant: false,
   });
 
-  const resetData = () => {
-    setFormData({
-      title: "",
-      participants: "",
-      start_time: "",
-      tags: [],
-      isParticipant: false,
-    });
-    setClear(clear + 1);
-  };
-
   const [formError, setFormError] = useState(null);
-  const [clear, setClear] = useState(0);
 
   const proccedEventCreation = () => {
-    // const csrf_token = getCookie("csrftoken");
+    const csrf_token = getCookie("csrftoken");
 
     //Need to delete before testing with token
     localStorage.setItem("id", 2);
+
+    let participantList = [];
+
+    if (formData.isParticipant) {
+      participantList.push(parseInt(localStorage.getItem("id")));
+    }
 
     const sendingData = {
       tags: formData.tags,
@@ -53,23 +47,21 @@ const ModalCreate = (props) => {
       longitude: props.latlong.lng,
       latitude: props.latlong.lat,
       is_expired: false,
-      users: [
-        formData.isParticipant ? parseInt(localStorage.getItem("id")) : null,
-      ],
+      users: participantList,
     };
 
     console.log(sendingData);
 
     //Uncomment to work with the database
     // console.log(JSON.stringify(sendingData));
-    // return fetch("http://127.0.0.1:8000/api/meeting-create/", {
-    //   method: "POST",
-    //   headers: {
-    //     "X-CSRFToken": csrf_token,
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(sendingData),
-    // }).then((data) => data.json());
+    return fetch("/api/meeting-create/", {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": csrf_token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(sendingData),
+    }).then((data) => data.json());
   };
 
   const createEvent = (event) => {
@@ -143,7 +135,6 @@ const ModalCreate = (props) => {
           onCheckboxChange={isParticipantHandler}
           onTagsChange={tagsHandler}
           error={formError}
-          clear={clear}
         />
         <CreateFormActions />
       </Row>
