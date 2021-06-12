@@ -27,5 +27,6 @@ urlpatterns = [
 
     path('comment-create/<int:pk>', views.commentCreate, name="meeting-create"),
     path('join-meeting/', views.joinMeeting, name="join-meeting"),
+    path('leave-meeting/', views.leaveMeeting, name="leave-meeting"),
     path('tag-list/', views.tagList, name="tag-list"),
 ]

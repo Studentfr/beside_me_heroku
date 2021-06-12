@@ -94,6 +94,9 @@ class Meeting(models.Model):
     def add_users_to_meeting(self, id):
         return self.users.add(id)
 
+    def delete_users_from_meeting(self, id):
+        return self.users.remove(id)
+
 
 class Tag(models.Model):
     """"
