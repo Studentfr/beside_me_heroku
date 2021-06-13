@@ -7,7 +7,7 @@ const CreateFormBody = (props) => {
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    fetch("api/tag-list")
+    fetch("/api/tag-list")
       .then((response) => response.json())
       .then(
         (allTags) => {
@@ -128,6 +128,7 @@ const CreateFormBody = (props) => {
         max={maxTime()}
         onChange={timeChangeHandler}
         value={time}
+        required={true}
       />
     </div>
   );

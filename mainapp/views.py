@@ -133,7 +133,7 @@ def tagList(request):
     return Response(services.getAllTags())
 
 
-@api_view()
+@api_view(['POST'])
 def joinMeeting(request):
     meetingId = request.query_params.get('meeting_id', None)
     userId = request.query_params.get('user_id', None)

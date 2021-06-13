@@ -14,8 +14,8 @@
 }
 
 .selected-items__item:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  border: 1.5px solid #7482ff;
+  box-shadow: 0 0 10px rgba(119, 213, 241, 0.5);
+  border: 0.5px solid #7482ff;
 }
 
 .selected-items__item svg {

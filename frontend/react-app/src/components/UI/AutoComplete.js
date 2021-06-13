@@ -68,8 +68,8 @@ const AutoComplete = (props) => {
         onChange={autoComplete}
         disabled={selectedTags.length >= props.limit}
       />
-      {suggestions.length != 0 && renderSuggestions()}
-      {selectedTags.length != 0 && (
+      {suggestions.length !== 0 && renderSuggestions()}
+      {selectedTags.length !== 0 && (
         <SelectedTags
           selectedTags={selectedTags}
           onDelete={deleteFromSelectedTags}
