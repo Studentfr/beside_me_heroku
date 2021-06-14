@@ -1,0 +1,12 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  text-decoration: none;
+}
+.nav_list {
+  display: flex;
+  list-style: none;
+}

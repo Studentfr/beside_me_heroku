@@ -1,44 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import "../../index.css"
+import React, { useState, useEffect } from "react";
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (localStorage.getItem('token') !== null) {
-      window.location.replace('/dashboard');
+    if (localStorage.getItem("token") !== null) {
+      window.location.replace("/dashboard");
     } else {
       setLoading(false);
     }
   }, []);
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     const user = {
       username: username,
-      password: password
+      password: password,
     };
 
-    fetch('/auth/', {
-      method: 'POST',
+    fetch("/auth/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(user),
     })
-      .then(res => res.json())
-      .then(data => {
-
+      .then((res) => res.json())
+      .then((data) => {
         if (data.token) {
           localStorage.clear();
-          localStorage.setItem('token', data.token);
-          window.location.replace('/dashboard');
+          localStorage.setItem("token", data.token);
+          window.location.replace("/dashboard");
         } else {
-          setUsername('');
-          setPassword('');
+          setUsername("");
+          setPassword("");
           localStorage.clear();
           setErrors(true);
         }
@@ -52,40 +50,50 @@ const Login = () => {
       {loading === false && (
         <form onSubmit={onSubmit}>
           <div className="form-group">
-          <label htmlFor='username' >Email</label> <br />
-          <input
-            name='username'
-            type='username'
-            value={username}
-            required
-            onChange={e => setUsername(e.target.value)}
-            className="form-control"  placeholder="Enter email"
-          />{' '}
+            <label htmlFor="username">Email</label> <br />
+            <input
+              name="username"
+              type="username"
+              value={username}
+              required
+              onChange={(e) => setUsername(e.target.value)}
+              className="form-control"
+              placeholder="Enter email"
+            />{" "}
           </div>
           <br />
           <div className="form-group">
-          <label htmlFor='password'>Password:</label> <br />
-          <input
-            name='password'
-            type='password'
-            value={password}
-            required
-            onChange={e => setPassword(e.target.value)}
-            className="form-control"  placeholder="Enter password"
-          />{' '}
+            <label htmlFor="password">Password:</label> <br />
+            <input
+              name="password"
+              type="password"
+              value={password}
+              required
+              onChange={(e) => setPassword(e.target.value)}
+              className="form-control"
+              placeholder="Enter password"
+            />{" "}
           </div>
           <br />
           <div className="form-group">
-                    <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
-                    </div>
-                </div>
+            <div className="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id="customCheck1"
+              />
+              <label className="custom-control-label" htmlFor="customCheck1">
+                Remember me
+              </label>
+            </div>
+          </div>
 
-          <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
-                <p className="forgot-password text-right">
-                    Forgot <a href="#">password?</a>
-                </p>
+          <button type="submit" className="btn btn-dark btn-lg btn-block">
+            Sign in
+          </button>
+          <p className="forgot-password text-right">
+            Forgot <a href="#">password?</a>
+          </p>
         </form>
       )}
     </div>
