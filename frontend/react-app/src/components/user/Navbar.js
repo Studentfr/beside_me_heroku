@@ -34,6 +34,9 @@ const Navbar = () => {
             <li>
               <Link to='/' onClick={handleLogout}>Logout</Link>
             </li>
+               <li>
+              <Link to='/event_map' >Map</Link>
+            </li>
           </Fragment>
         ) : (
           <Fragment>

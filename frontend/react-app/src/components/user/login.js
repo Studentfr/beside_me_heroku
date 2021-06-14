@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../../index.css"
+import {DomUtil as Cookies} from "leaflet/dist/leaflet-src.esm";
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -8,7 +9,7 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
-      window.location.replace('/dashboard');
+      // window.location.replace('/dashboard');
     } else {
       setLoading(false);
     }
@@ -25,17 +26,21 @@ const Login = () => {
     fetch('/auth/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Cookies.get('csrftoken')
       },
       body: JSON.stringify(user)
     })
       .then(res => res.json())
       .then(data => {
-
+        console.log(data)
         if (data.token) {
+
           localStorage.clear();
           localStorage.setItem('token', data.token);
+          localStorage.setItem('id', data.user_id);
           window.location.replace('/dashboard');
+
         } else {
           setUsername('');
           setPassword('');
