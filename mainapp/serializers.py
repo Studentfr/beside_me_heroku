@@ -34,6 +34,7 @@ class TagSerializer(serializers.ModelSerializer):
 class MeetingSerializer(serializers.ModelSerializer):
     tags = TagSerializer(source='get_meeting_tags', many=True)
     headman = UserMeetSerializer(read_only=True)
+    users = UserMeetSerializer(source='get_meeting_users', many=True)
 
     class Meta:
         model = Meeting

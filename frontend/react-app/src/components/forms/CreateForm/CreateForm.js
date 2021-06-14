@@ -29,9 +29,6 @@ const ModalCreate = (props) => {
   const proccedEventCreation = () => {
     const csrf_token = getCookie("csrftoken");
 
-    //Need to delete before testing with token
-    localStorage.setItem("id", 2);
-
     let participantList = [];
 
     if (formData.isParticipant) {

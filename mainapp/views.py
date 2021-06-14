@@ -143,6 +143,16 @@ def joinMeeting(request):
     return Response("You have joined successfully")
 
 
+@api_view(['POST'])
+def leaveMeeting(request):
+    meetingId = request.query_params.get('meeting_id', None)
+    userId = request.query_params.get('user_id', None)
+    meeting = models.Meeting.objects.get(id=meetingId)
+    print(meeting.get_meeting_users())
+    meeting.delete_users_from_meeting(userId)
+    return Response("You have left the meeting successfully")
+
+
 class CustomAuthToken(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
