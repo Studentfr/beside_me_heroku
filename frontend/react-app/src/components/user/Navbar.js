@@ -1,86 +1,76 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, Fragment } from "react";
+import { Link } from "react-router-dom";
+import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('token') !== null) {
+    if (localStorage.getItem("token") !== null) {
       setIsAuth(true);
     }
   }, []);
 
-  const handleLogout = e => {
+  const handleLogout = (e) => {
     e.preventDefault();
 
-     localStorage.clear();
-      setIsAuth(false);
-      window.location.replace('/');
+    localStorage.clear();
+    setIsAuth(false);
+    window.location.replace("/");
   };
 
   return (
-       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-        <div className="container">
-          <Link className="navbar-brand" to={"/auth/"}>Beside Me</Link>
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav ml-auto">
-
-        {isAuth === true ? (
-          <Fragment>
-            {' '}
-            <li>
-              <Link to='/dashboard'>Dashboard</Link>
-            </li>
-            <li>
-              <Link to='/' onClick={handleLogout}>Logout</Link>
-            </li>
-               <li>
-              <Link to='/event_map' >Map</Link>
-            </li>
-          </Fragment>
-        ) : (
-          <Fragment>
-            {' '}
-            <li>
-              <Link to='/auth/'>Login</Link>
-            </li>
-            <li>
-              <Link to='/api/users/'>Register</Link>
-            </li>
-          </Fragment>
-        )}
-      </ul>
-
-
-          </div>
+    <nav className={styles.navbar}>
+      <Link className={styles.left} to={"/"}>
+        <div className={styles.logo}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
         </div>
-      </nav>
-    // <nav>
-    //
-    //   <ul>
-    //     {isAuth === true ? (
-    //       <Fragment>
-    //         {' '}
-    //         <li>
-    //           <Link to='/dashboard'>Dashboard</Link>
-    //         </li>
-    //         <li>
-    //           <Link to='/' onClick={handleLogout}>Logout</Link>
-    //         </li>
-    //       </Fragment>
-    //     ) : (
-    //       <Fragment>
-    //         {' '}
-    //         <li>
-    //           <Link to='/auth/'>Login</Link>
-    //         </li>
-    //         <li>
-    //           <Link to='/api/users/'>Register</Link>
-    //         </li>
-    //       </Fragment>
-    //     )}
-    //   </ul>
-    // </nav>
+        <div className={styles["logo-name"]}>Beside Me</div>
+      </Link>
+      <div className={styles.right}>
+        <ul className={styles["nav_list"]}>
+          {isAuth === true ? (
+            <Fragment>
+              {" "}
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+              <li>
+                <Link to="/" onClick={handleLogout}>
+                  Logout
+                </Link>
+              </li>
+              <li>
+                <Link to="/event_map">Map</Link>
+              </li>
+            </Fragment>
+          ) : (
+            <Fragment>
+              {" "}
+              <li>
+                <Link to="/auth/">Login</Link>
+              </li>
+              <li>
+                <Link to="/api/users/">Register</Link>
+              </li>
+            </Fragment>
+          )}
+        </ul>
+      </div>
+    </nav>
   );
 };
 
