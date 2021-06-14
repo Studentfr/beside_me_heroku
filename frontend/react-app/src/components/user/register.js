@@ -1,137 +1,142 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
+import AutoComplete from "../UI/AutoComplete";
+import { DomUtil as Cookies } from "leaflet/dist/leaflet-src.esm";
 
-class Register extends Component {
-  state = {
-    credentials: {
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      photo: null,
-      groups: [],
-      user_permissions: [],
-      tags: [],
-    },
+const Register = (props) => {
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [groups, setGroups] = useState([]);
+  const [user_permissions, setUser_permissions] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [errors, setErrors] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  const tagChangeHandler = (newTagList) => {
+    setSelectedTags(newTagList.map((item) => item.id));
   };
 
-  onImageChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      let img = event.target.files[0];
-      this.setState({
-        photo: URL.createObjectURL(img),
-      });
-      console.log(img);
-      console.log(URL.createObjectURL(img));
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/tag-list")
+      .then((response) => response.json())
+      .then(
+        (allTags) => {
+          setTags(allTags);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("token") !== null) {
+      // window.location.replace('/dashboard');
+    } else {
+      setLoading(false);
     }
-  };
+  }, []);
 
-  register = (event) => {
-    fetch("/api/users/", {
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const user = {
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      password: password,
+      photo: photo,
+      groups: groups,
+      user_permissions: user_permissions,
+      tags: selectedTags,
+    };
+
+    fetch("/api/user-create/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.state.credentials),
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+      body: JSON.stringify(user),
     })
-      // .then( data => data.json())
-      // .then(
-      //   data => {
-      //     console.log(data.token);
       .then((res) => res.json())
       .then((data) => {
-        if (data.key) {
+        console.log(data);
+        if (data.token) {
           localStorage.clear();
-          localStorage.setItem("token", data.key);
+          localStorage.setItem("token", data.token);
           window.location.replace("/dashboard");
+        } else {
+          setFirstname("");
+          setLastname("");
+          setEmail("");
+          setPassword("");
+          setPhoto(null);
+          setGroups([]);
+          setUser_permissions([]);
+          setTags([]);
+          localStorage.clear();
+          setErrors(true);
         }
-      })
-      .catch((error) => console.error(error));
-  };
-  inputChanged = (event) => {
-    const cred = this.state.credentials;
-    cred[event.target.name] = event.target.value;
-    this.setState({ credentials: cred });
-  };
-  inputChangedList = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+      });
   };
 
-  render() {
-    return (
-      <div>
-        <h1>Register user </h1>
-        <label>
-          Firstname:
-          <input
-            type="text"
-            name="firstname"
-            value={this.state.credentials.firstname}
-            onChange={this.inputChanged}
-          />
-        </label>
+  return (
+    <div>
+      {loading === false && <h1>Register</h1>}
+      {errors === true && <h2>Cannot register with provided credentials</h2>}
+      <form onSubmit={onSubmit}>
+        <label htmlFor="firstname">Firstname</label> <br />
+        <input
+          name="firstname"
+          type="firstname"
+          value={firstname}
+          onChange={(e) => setFirstname(e.target.value)}
+          required
+        />{" "}
         <br />
-        <label>
-          Lastname:
-          <input
-            type="text"
-            name="lastname"
-            value={this.state.credentials.lastname}
-            onChange={this.inputChanged}
-          />
-        </label>
+        <label htmlFor="lastname">Lastname</label> <br />
+        <input
+          name="lastname"
+          type="lastname"
+          value={lastname}
+          onChange={(e) => setLastname(e.target.value)}
+          required
+        />{" "}
         <br />
-        <label>
-          Email:
-          <input
-            type="text"
-            name="email"
-            value={this.state.credentials.email}
-            onChange={this.inputChanged}
-          />
-        </label>
+        <label htmlFor="email">Email address:</label> <br />
+        <input
+          name="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />{" "}
         <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={this.state.credentials.password}
-            onChange={this.inputChanged}
-          />
-        </label>
+        <label htmlFor="password">Password:</label> <br />
+        <input
+          name="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />{" "}
         <br />
-        #Image
-        <div>
-          <div>
-            <div>
-              <img src={this.state.credentials.photo} />
-              <h1>Select Image</h1>
-              <input
-                type="file"
-                name="photo"
-                value={this.state.credentials.photo}
-                onChange={this.onImageChange}
-              />
-            </div>
-          </div>
-        </div>
+        <label>Select tag:</label>
+        <AutoComplete
+          items={tags}
+          onTagChoice={tagChangeHandler}
+          placeholder="Write a Tag"
+          limit={3}
+        />
         <br />
-        <label>
-          Select tag:
-          <select
-            name="tags"
-            value={this.state.credentials.tags}
-            onChange={this.inputChangedList}
-          >
-            <option name="tags">1</option>
-            <option name="tags">2</option>
-          </select>
-        </label>
-        <br />
-        <button onClick={this.register}>Register</button>
-      </div>
-    );
-  }
-}
+        <input type="submit" value="Register" />
+      </form>
+    </div>
+  );
+};
 
 export default Register;

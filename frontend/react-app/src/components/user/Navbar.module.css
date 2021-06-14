@@ -2,11 +2,47 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-left: 5rem;
-  padding-right: 5rem;
+  padding-left: 8rem;
+  padding-right: 8rem;
   text-decoration: none;
 }
 .nav_list {
   display: flex;
   list-style: none;
+}
+
+.nav_list li {
+  margin-right: 0.5rem;
+}
+
+.nav_list:last-child {
+  margin-right: 0;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.left {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+}
+
+.logo svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.logo-name {
+  font-size: 1.5rem;
+}
+
+.right {
+  font-size: 1.3rem;
 }

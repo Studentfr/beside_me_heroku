@@ -18,18 +18,13 @@ import Dashboard from "./components/user/Dashboard";
 const App = () => {
   return (
     <Router>
-      <div className="App">
-        <Navbar />
-        <div className="outer">
-          <div className="inner">
-            <Switch>
-              <Route path="/auth" component={Login} exact />
-              <Route path="/api/users/" component={Register} exact />
-              <Route path="/dashboard" component={Dashboard} exact />
-            </Switch>
-          </div>
-        </div>
-      </div>
+      <Navbar />
+      <Switch>
+        <Route path="/auth" component={Login} exact />
+        <Route path="/api/users/" component={Register} exact />
+        <Route path="/dashboard" component={Dashboard} exact />
+        <Route path="/event_map" component={Map} exact />
+      </Switch>
     </Router>
 
     // <>

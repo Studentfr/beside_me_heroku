@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { DomUtil as Cookies } from "leaflet/dist/leaflet-src.esm";
+import styles from "./Login.module.css";
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +28,7 @@ const Login = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
       },
       body: JSON.stringify(user),
     })
@@ -33,6 +37,7 @@ const Login = () => {
         if (data.token) {
           localStorage.clear();
           localStorage.setItem("token", data.token);
+          localStorage.setItem("id", data.user_id);
           window.location.replace("/dashboard");
         } else {
           setUsername("");
@@ -44,56 +49,37 @@ const Login = () => {
   };
 
   return (
-    <div>
-      {loading === false && <h1>Login</h1>}
+    <div className={styles.container}>
+      {loading === false && <h1 className={styles["h1-text"]}>Welcome</h1>}
       {errors === true && <h2>Cannot log in with provided credentials</h2>}
       {loading === false && (
-        <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">Email</label> <br />
-            <input
-              name="username"
-              type="username"
-              value={username}
-              required
-              onChange={(e) => setUsername(e.target.value)}
-              className="form-control"
-              placeholder="Enter email"
-            />{" "}
-          </div>
-          <br />
-          <div className="form-group">
-            <label htmlFor="password">Password:</label> <br />
-            <input
-              name="password"
-              type="password"
-              value={password}
-              required
-              onChange={(e) => setPassword(e.target.value)}
-              className="form-control"
-              placeholder="Enter password"
-            />{" "}
-          </div>
-          <br />
-          <div className="form-group">
-            <div className="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="customCheck1"
-              />
-              <label className="custom-control-label" htmlFor="customCheck1">
-                Remember me
-              </label>
-            </div>
-          </div>
-
-          <button type="submit" className="btn btn-dark btn-lg btn-block">
-            Sign in
+        <form onSubmit={onSubmit} className={"login-form"}>
+          <input
+            className={styles["login-form__input"]}
+            type="text"
+            name="username"
+            type="username"
+            value={username}
+            required
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Email"
+          />
+          <input
+            className={styles["login-form__input"]}
+            name="password"
+            type="password"
+            value={password}
+            required
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+          <button
+            className={styles["login-form__button"]}
+            type="submit"
+            id="login-button"
+          >
+            Login
           </button>
-          <p className="forgot-password text-right">
-            Forgot <a href="#">password?</a>
-          </p>
         </form>
       )}
     </div>
