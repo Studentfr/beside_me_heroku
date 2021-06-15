@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AutoComplete from "../UI/AutoComplete";
 import { DomUtil as Cookies } from "leaflet/dist/leaflet-src.esm";
+import styles from "./Register.module.css";
 
 const Register = (props) => {
   const [firstname, setFirstname] = useState("");
@@ -34,7 +35,7 @@ const Register = (props) => {
 
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
-      // window.location.replace('/dashboard');
+       window.location.replace('/dashboard');
     } else {
       setLoading(false);
     }
@@ -68,6 +69,7 @@ const Register = (props) => {
         if (data.token) {
           localStorage.clear();
           localStorage.setItem("token", data.token);
+          window.localStorage.setItem("id", data.id);
           window.location.replace("/dashboard");
         } else {
           setFirstname("");
@@ -85,55 +87,58 @@ const Register = (props) => {
   };
 
   return (
-    <div>
-      {loading === false && <h1>Register</h1>}
+    <div className={styles.container}>
+      {loading === false && <h1 className={styles["h1-text"]}>Register</h1>}
       {errors === true && <h2>Cannot register with provided credentials</h2>}
-      <form onSubmit={onSubmit}>
-        <label htmlFor="firstname">Firstname</label> <br />
+      <form onSubmit={onSubmit} className={"register-form"}>
         <input
+            className={styles["register-form__input"]}
           name="firstname"
           type="firstname"
           value={firstname}
           onChange={(e) => setFirstname(e.target.value)}
           required
-        />{" "}
-        <br />
-        <label htmlFor="lastname">Lastname</label> <br />
+            placeholder="Firstname"
+        />
         <input
+            className={styles["register-form__input"]}
           name="lastname"
           type="lastname"
           value={lastname}
           onChange={(e) => setLastname(e.target.value)}
           required
-        />{" "}
-        <br />
-        <label htmlFor="email">Email address:</label> <br />
+            placeholder="Lastname"
+        />
         <input
+            className={styles["register-form__input"]}
           name="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-        />{" "}
-        <br />
-        <label htmlFor="password">Password:</label> <br />
+            placeholder="Email"
+        />
         <input
+            className={styles["register-form__input"]}
           name="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-        />{" "}
-        <br />
-        <label>Select tag:</label>
+            placeholder="Password"
+        />
+
         <AutoComplete
+          className = {styles["register-form__input"]}
           items={tags}
           onTagChoice={tagChangeHandler}
           placeholder="Write a Tag"
           limit={3}
         />
-        <br />
-        <input type="submit" value="Register" />
+        <button className={styles["register-form__button"]}
+         type="submit" >
+          Register
+            </button>
       </form>
     </div>
   );
