@@ -1,0 +1,35 @@
+.access {
+  background-image: url("./img/access.jpg");
+}
+.comm {
+  background-image: url("./img/comm.jpg");
+}
+.impact {
+  background-image: url("./img/impact.jpg");
+}
+.service-box {
+  height: 204px;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  background-blend-mode: multiply;
+}
+
+.service-box__text {
+  text-align: center;
+}
+
+.service-box__text > h4 {
+  text-transform: uppercase;
+  font-size: 2.5rem;
+}
+
+.service-box__text > p {
+  font-size: 1.2rem;
+}

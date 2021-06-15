@@ -1,0 +1,34 @@
+.container {
+  padding-top: 1.2rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: 4rem;
+}
+
+.tag-1 {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  position: absolute;
+  top: 35%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+}
+
+.tag-2 {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  position: absolute;
+  top: 60%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+}
+
+.photo {
+  background-image: url(./img//back.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 80%;
+  height: 26rem;
+  box-shadow: 12px 12px 2px 1px rgba(26, 26, 56, 0.493);
+}

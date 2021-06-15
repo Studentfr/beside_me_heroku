@@ -49,13 +49,12 @@ const Navbar = () => {
                 <Link to="/dashboard">Dashboard</Link>
               </li>
               <li>
+                <Link to="/event_map">Map</Link>
+              </li>
+              <li>
                 <Link to="/" onClick={handleLogout}>
                   Logout
                 </Link>
-              </li>
-
-              <li>
-                <Link to="/event_map">Map</Link>
               </li>
             </Fragment>
           ) : (

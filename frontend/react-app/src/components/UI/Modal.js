@@ -16,7 +16,7 @@ const ModalOverlay = (props) => {
       </header>
       <div className={styles.content}>
         {props.toFetch.map((item) => {
-          return <p>{item}</p>;
+          return <p>{item.firstname}</p>;
         })}
       </div>
       <footer className={styles.actions}>
