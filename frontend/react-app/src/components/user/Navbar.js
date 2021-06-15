@@ -53,6 +53,7 @@ const Navbar = () => {
                   Logout
                 </Link>
               </li>
+
               <li>
                 <Link to="/event_map">Map</Link>
               </li>
@@ -63,8 +64,13 @@ const Navbar = () => {
               <li>
                 <Link to="/auth/">Login</Link>
               </li>
+
               <li>
                 <Link to="/api/users/">Register</Link>
+              </li>
+
+              <li>
+                <Link to="/event_map">Map</Link>
               </li>
             </Fragment>
           )}

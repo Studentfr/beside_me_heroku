@@ -35,7 +35,7 @@ const Register = (props) => {
 
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
-      // window.location.replace('/dashboard');
+       window.location.replace('/dashboard');
     } else {
       setLoading(false);
     }
@@ -69,6 +69,7 @@ const Register = (props) => {
         if (data.token) {
           localStorage.clear();
           localStorage.setItem("token", data.token);
+          window.localStorage.setItem("id", data.id);
           window.location.replace("/dashboard");
         } else {
           setFirstname("");
@@ -128,7 +129,7 @@ const Register = (props) => {
         />
 
         <AutoComplete
-            className={styles["register-form__input"]}
+          className = {styles["register-form__input"]}
           items={tags}
           onTagChoice={tagChangeHandler}
           placeholder="Write a Tag"
