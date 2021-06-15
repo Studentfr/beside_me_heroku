@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Row from "../../UI/Row";
 import JoinFormHeader from "./JoinFormHeader";
 import JoinFormBody from "./JoinFormBody";
@@ -8,11 +8,53 @@ import getCookie from "../getCookie";
 import styles from "../Form.module.css";
 
 const JoinForm = (props) => {
-  const joinEvent = (event) => {
+  const [eventDetail, setEventDetail] = useState(props.eventDetail);
+  const participants = eventDetail.users.map((user) => user.id);
+
+  const [joined, setJoined] = useState(
+    participants.includes(parseInt(localStorage.getItem("id")))
+  );
+
+  const joinEvent = async (event) => {
+    event.preventDefault();
+    const csrf_token = getCookie("csrftoken");
+    const firstname = await fetch(
+      `/api/user-detail/${localStorage.getItem("id")}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        return data.Users.firstname;
+      });
+    console.log(firstname);
+    return fetch(
+      `/api/join-meeting/?meeting_id=${eventDetail.id}&user_id=${parseInt(
+        localStorage.getItem("id")
+      )}`,
+      {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrf_token,
+          "Content-Type": "application/json",
+        },
+      }
+    ).then(() => {
+      eventDetail.users.push({
+        id: parseInt(localStorage.getItem("id")),
+        firstname: firstname,
+      });
+      setEventDetail(eventDetail);
+      setJoined(true);
+    });
+  };
+
+  const leaveEvent = async (event) => {
     event.preventDefault();
     const csrf_token = getCookie("csrftoken");
     return fetch(
-      `/api/join-meeting/?meeting_id=${props.eventDetail.id}&user_id=${parseInt(
+      `/api/leave-meeting/?meeting_id=${eventDetail.id}&user_id=${parseInt(
         localStorage.getItem("id")
       )}`,
       {
@@ -23,37 +65,34 @@ const JoinForm = (props) => {
         },
       }
     ).then((data) => {
-      console.log(data.json());
+      let index;
+      eventDetail.users.forEach((element) => {
+        if (element.id === parseInt(localStorage.getItem("id"))) {
+          index = eventDetail.users.indexOf(element);
+        }
+      });
+      eventDetail.users.splice(index, 1);
+      setEventDetail(eventDetail);
+      setJoined(false);
     });
   };
 
   return (
     <Row className={styles["form-control"]}>
-      <form onSubmit={joinEvent}>
-        <JoinFormHeader
-          title={props.eventDetail.title}
-          tags={props.eventDetail.tags}
-        />
+      <form>
+        <JoinFormHeader title={eventDetail.title} tags={eventDetail.tags} />
 
-        <JoinFormBody eventDetail={props.eventDetail}></JoinFormBody>
+        <JoinFormBody eventDetail={eventDetail}></JoinFormBody>
 
         <Row>
-          {localStorage.getItem("token") !== null &&
-            !props.eventDetail.users.includes(
-              parseInt(localStorage.getItem("id"))
-            ) && (
-              <Button className={styles["btn-full-width"]} type="submit">
-                Join Event
-              </Button>
-            )}
-          {localStorage.getItem("token") !== null &&
-            props.eventDetail.users.includes(
-              parseInt(localStorage.getItem("id"))
-            ) && (
-              <Button>
-                You have already <br /> joined this meeting
-              </Button>
-            )}
+          {localStorage.getItem("token") !== null && !joined && (
+            <Button onClick={joinEvent} className={styles["btn-full-width"]}>
+              Join Event
+            </Button>
+          )}
+          {localStorage.getItem("token") !== null && joined && (
+            <Button onClick={leaveEvent}>Leave Meeting</Button>
+          )}
           {localStorage.getItem("token") === null && (
             <Button>Please, login!</Button>
           )}

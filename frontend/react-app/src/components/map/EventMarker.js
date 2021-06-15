@@ -9,7 +9,7 @@ const EventMarker = (props) => {
       key={props.event.id}
     >
       <Popup>
-        <JoinForm eventDetail={props.event} />
+        <JoinForm onAction={props.onEventHandler} eventDetail={props.event} />
       </Popup>
     </Marker>
   );
