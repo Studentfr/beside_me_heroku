@@ -36,7 +36,6 @@ const Dashboard = () => {
           <h1>Dashboard</h1>
           <h2>Hello {user.email}!</h2>
           <h3>{user.firstname}</h3>
-
         </Fragment>
       )}
     </div>

@@ -40,7 +40,7 @@ def saveUserToDB(user_data):
         serializer.save()
     user = User.objects.get(email=user_data["email"])
     token = Token.objects.get(user=user.id)
-    return {"data": serializer.data, "token": token.key}
+    return {"data": serializer.data, "token": token.key, "id": user.id}
 
 
 def updateUser(id, user_data):
