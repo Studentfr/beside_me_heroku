@@ -47,10 +47,6 @@ const ModalCreate = (props) => {
       users: participantList,
     };
 
-    console.log(sendingData);
-
-    //Uncomment to work with the database
-    // console.log(JSON.stringify(sendingData));
     return fetch("/api/meeting-create/", {
       method: "POST",
       headers: {
