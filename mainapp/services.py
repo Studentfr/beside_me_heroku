@@ -25,8 +25,8 @@ def getUserDetail(id):
     meetings_created_serializer_data = getMeetingsIfHeadMan(user).data
     meetings_participated_serializer_data = getMeetingsIfParticipant(user).data
     return {"Users": user_serializer_data,
-            "Owned meetings": meetings_created_serializer_data,
-            "Joined meetings": meetings_participated_serializer_data
+            "Owned_meetings": meetings_created_serializer_data,
+            "Joined_meetings": meetings_participated_serializer_data
             }
 
 
