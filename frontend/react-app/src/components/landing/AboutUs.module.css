@@ -1,0 +1,13 @@
+.text {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  width: 55%;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.container {
+  text-align: center;
+  padding: 2.5rem;
+  display: flex;
+  justify-content: center;
+}

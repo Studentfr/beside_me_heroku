@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 1.5rem 2rem 1.5rem;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.grid-inter {
+  width: 30%;
+}
+.container > * {
+  margin-right: 10px;
+}
+
+.container:last-child {
+  margin-right: 0;
+}
+
+@media only screen and (max-width: 850px) {
+  .grid-inter {
+    width: 100%;
+  }
+}

@@ -49,12 +49,12 @@ const Navbar = () => {
                 <Link to="/dashboard">Dashboard</Link>
               </li>
               <li>
+                <Link to="/event_map">Map</Link>
+              </li>
+              <li>
                 <Link to="/" onClick={handleLogout}>
                   Logout
                 </Link>
-              </li>
-              <li>
-                <Link to="/event_map">Map</Link>
               </li>
             </Fragment>
           ) : (
@@ -63,8 +63,13 @@ const Navbar = () => {
               <li>
                 <Link to="/auth/">Login</Link>
               </li>
+
               <li>
                 <Link to="/api/users/">Register</Link>
+              </li>
+
+              <li>
+                <Link to="/event_map">Map</Link>
               </li>
             </Fragment>
           )}
