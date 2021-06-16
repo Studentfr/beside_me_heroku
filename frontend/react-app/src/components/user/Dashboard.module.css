@@ -3,7 +3,10 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 }
 
 .container {
-    display: flex;
+    display: grid;
+    grid-auto-rows: 1fr;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
     flex-direction: row;
     width: 100%;
     justify-content: space-evenly;
@@ -12,11 +15,15 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 }
 
 .child {
-    width: 22%;
+    width: 100%;
     background-color: #dcdcdc;
     padding: 20px;
     border-radius: 15px;
     margin: auto;
+}
+
+.ch {
+    list-style: none;
 }
 
 .fragment {
