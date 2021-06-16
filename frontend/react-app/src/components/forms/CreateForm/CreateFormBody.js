@@ -97,6 +97,7 @@ const CreateFormBody = (props) => {
         id="title"
         onChange={titleChangeHandler}
       />
+      <label htmlFor="tagChoice">Tags</label>
       <AutoComplete
         items={tags}
         onTagChoice={tagChangeHandler}

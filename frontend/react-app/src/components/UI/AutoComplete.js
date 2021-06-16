@@ -55,7 +55,7 @@ const AutoComplete = (props) => {
 
   return (
     <div className={styles["autocomplete-text"]}>
-      <label htmlFor="tagChoice">Tags</label>
+
       <input
           className={props.className}
         id="tagChoice"
