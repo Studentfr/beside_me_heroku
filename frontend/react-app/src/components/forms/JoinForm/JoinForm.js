@@ -6,6 +6,7 @@ import Button from "../../UI/Button";
 import getCookie from "../getCookie";
 
 import styles from "../Form.module.css";
+import {Link} from "react-router-dom";
 
 const JoinForm = (props) => {
   const [eventDetail, setEventDetail] = useState(props.eventDetail);
@@ -94,7 +95,7 @@ const JoinForm = (props) => {
             <Button onClick={leaveEvent}>Leave Meeting</Button>
           )}
           {localStorage.getItem("token") === null && (
-            <Button>Please, login!</Button>
+            <Button>Please, Login!</Button>
           )}
         </Row>
       </form>

@@ -41,6 +41,15 @@ const Register = (props) => {
     }
   }, []);
 
+  const onImageChange = event => {
+    if (event.target.files && event.target.files[0]) {
+      let img = event.target.files[0];
+      this.setState({
+        photo: URL.createObjectURL(img)
+      });
+    }
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -135,9 +144,18 @@ const Register = (props) => {
           placeholder="Write a Tag"
           limit={3}
         />
-        <button className={styles["register-form__button"]}
-         type="submit" >
-          Register
+
+
+            <h1>Select Image</h1>
+            <input className={styles["register-form__input"]}
+                   type="file"
+                   name="myImage"
+                   onChange={onImageChange} />
+
+
+                   <button className={styles["register-form__button"]}
+                   type="submit" >
+                Register
             </button>
       </form>
     </div>

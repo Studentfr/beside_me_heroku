@@ -28,5 +28,4 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html")),
     path('event_map', TemplateView.as_view(template_name="index.html")),
     path('dashboard', TemplateView.as_view(template_name="index.html")),
-    path('event_map', TemplateView.as_view(template_name="index.html")),
 ]
