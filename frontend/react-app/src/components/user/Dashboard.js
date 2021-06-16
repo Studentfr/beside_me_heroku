@@ -55,12 +55,12 @@ const Dashboard = () => {
             <div className={styles["container"]}>
             {own.map((item, i) => {
              return <div className={styles["child"]}>
-               <p key={i}><h4>{item.title}</h4>
+               <p key={i}><h4>{item.title}</h4><br/>
 
                  <h4>Participants:</h4>
                  <ul>
                 {item.users.map((item2, j) => {
-                  return <li key={j}>{item2.firstname}</li>
+                  return <li key={j} className={styles["ch"]}>{item2.firstname}</li>
                 })}</ul>
                  <h4>Starting time:</h4>
                {new Date(item.start_at).toLocaleString()}</p>
@@ -72,9 +72,9 @@ const Dashboard = () => {
           <div className={styles["container"]}>
             {joint.map((item, i) => {
               return <div className={styles["child"]}>
-                <p key={i}><h4>{item.title}</h4>
+                <p key={i}><h4>{item.title}</h4><br/>
               <h4>Participants number:</h4> {item.participants}
-              <h4>Starting time:</h4> <br/>
+              <h4>Starting time:</h4>
               {new Date(item.start_at).toLocaleString()}</p>
               </div>
             })}
