@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
 import environ
 
 env = environ.Env()
@@ -18,7 +19,6 @@ environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -30,7 +30,6 @@ SECRET_KEY = env("SECRET_KEY", default="-sjcvzq1o*^af6@zdl8nq$^rkv6do4vghc%ozo@%
 DEBUG = True
 
 ALLOWED_HOSTS = ['10.200.1.0', '127.0.0.1']
-
 
 # Application definition
 
@@ -79,9 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'beside_me.wsgi.application'
 
-
-
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -96,7 +92,6 @@ CORS_ALLOWED_ORIGINS_REGEXES = [
     r"localhost:8000$",
     r"127.0.0.1:8000$"
 ]
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -131,22 +126,20 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'frontend/static'
 
-
-
 STATICFILES_DIRS = (
     (BASE_DIR / 'frontend/react-app/build/static'),
 )
 STATIC_ROOT = BASE_DIR / 'frontend/static'
 
-
-
 STATICFILES_DIRS = (
     (BASE_DIR / 'frontend/react-app/build/static'),
 )
+
+# Configure Django App for Heroku.
+django_heroku.settings(locals())
